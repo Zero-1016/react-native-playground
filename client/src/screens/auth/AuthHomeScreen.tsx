@@ -4,7 +4,7 @@ import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/CustomButton';
 import {authNavigations} from '@/constants';
 import styled from '@emotion/native';
-import {getSize} from '@/utils/getSize';
+import {getSize} from '@/utils/get-size';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,

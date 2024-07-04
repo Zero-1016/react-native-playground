@@ -1,52 +1,43 @@
-import React, {useState} from 'react';
+import React from 'react';
 import InputFiled from '@/components/InputFiled';
 import styled from '@emotion/native';
+import CustomButton from '@/components/CustomButton';
+import useForm from '@/hooks/useForm';
+import {validateLogin} from '@/utils';
 
 function LoginScreen() {
-  const [values, setValues] = useState({
-    email: '',
-    password: '',
+  const login = useForm({
+    initialValue: {email: '', password: ''},
+    validate: validateLogin,
   });
-
-  const [touched, setTouched] = useState({
-    email: false,
-    password: false,
-  });
-
-  const handleChangeText = (name: string, text: string) => {
-    setValues({
-      ...values,
-      [name]: text,
-    });
-  };
-
-  const handleBlur = (name: string) => () => {
-    setTouched({
-      ...touched,
-      [name]: true,
-    });
+  const handleSubmit = () => {
+    console.log(login.values);
   };
 
   return (
     <S.SafeAreaView>
-      <S.Container>
+      <S.InputContainer>
         <InputFiled
           placeholder="이메일"
           inputMode="email"
-          touched={touched.email}
-          value={values.email}
-          onChangeText={text => handleChangeText('email', text)}
-          onBlur={handleBlur('email')}
+          error={login.errors.email}
+          touched={login.touched.email}
+          {...login.getTextInputProps('email')}
         />
         <InputFiled
           placeholder="비밀번호"
           secureTextEntry
-          touched={touched.password}
-          value={values.password}
-          onChangeText={text => handleChangeText('password', text)}
-          onBlur={handleBlur('password')}
+          error={login.errors.password}
+          touched={login.touched.password}
+          {...login.getTextInputProps('password')}
         />
-      </S.Container>
+      </S.InputContainer>
+      <CustomButton
+        label="로그인"
+        variant="filled"
+        size="large"
+        onPress={handleSubmit}
+      />
     </S.SafeAreaView>
   );
 }
@@ -56,8 +47,9 @@ const S = {
     flex: 1;
     margin: 30px;
   `,
-  Container: styled.View`
+  InputContainer: styled.View`
     gap: 20px;
+    margin-bottom: 30px;
   `,
 };
 

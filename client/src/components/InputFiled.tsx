@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, {css} from '@emotion/native';
 import {Pressable, TextInput, TextInputProps} from 'react-native';
-import {getSize} from '@/utils/getSize';
+import {getSize} from '@/utils/get-size';
 import {useRef} from 'react';
 
 interface InputFiledProps extends TextInputProps {
-  touched?: boolean;
+  touched: boolean;
   disabled?: boolean;
   error?: string;
 }
@@ -24,7 +24,7 @@ function InputFiled({
 
   return (
     <Pressable onPress={handlePressInput}>
-      <S.Container _isError={Boolean(error)}>
+      <S.Container _isError={touched && Boolean(error)}>
         <S.TextInput
           ref={innerRef}
           editable={!disabled}
