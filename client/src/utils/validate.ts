@@ -18,13 +18,11 @@ function validateUser({email, password}: UserInformation) {
   return errors;
 }
 
-export function validateLogin(values: UserInformation) {
-  validateUser(values);
+function validateLogin(values: UserInformation) {
+  return validateUser(values);
 }
 
-export function validateSignUp(
-  values: UserInformation & {passwordConfirm: string},
-) {
+function validateSignUp(values: UserInformation & {passwordConfirm: string}) {
   const errors = validateUser(values);
   const signUpErrors = {...errors, passwordConfirm: ''};
 
@@ -33,3 +31,5 @@ export function validateSignUp(
   }
   return signUpErrors;
 }
+
+export {validateLogin, validateSignUp};

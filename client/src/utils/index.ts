@@ -1,2 +1,3 @@
-export {validateLogin, validateSignUp} from './validate';
-export {getSize} from './get-size';
+export * from './validate';
+export * from './get-size';
+export * from './common';
