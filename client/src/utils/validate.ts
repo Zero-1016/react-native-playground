@@ -3,17 +3,33 @@ type UserInformation = {
   password: string;
 };
 
-export function validateLogin(values: UserInformation) {
+function validateUser({email, password}: UserInformation) {
   const errors = {
     email: '',
     password: '',
   };
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.email = '이메일 형식이 올바르지 않습니다.';
   }
-  if (!(values.password.length >= 8 && values.password.length <= 20)) {
+  if (!(password.length >= 8 && password.length <= 20)) {
     errors.password = '비밀번호는 8자 이상 20자 이하여야 합니다.';
   }
   return errors;
+}
+
+export function validateLogin(values: UserInformation) {
+  validateUser(values);
+}
+
+export function validateSignUp(
+  values: UserInformation & {passwordConfirm: string},
+) {
+  const errors = validateUser(values);
+  const signUpErrors = {...errors, passwordConfirm: ''};
+
+  if (!(values.password !== values.passwordConfirm)) {
+    signUpErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.';
+  }
+  return signUpErrors;
 }
