@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 function SignScreen() {
   return (
@@ -8,7 +8,5 @@ function SignScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default SignScreen;
