@@ -1,15 +1,16 @@
 import React from 'react';
 import styled, {css} from '@emotion/native';
 import {Dimensions, PressableProps, Text} from 'react-native';
+import {Theme} from '@emotion/react';
 
 const deviceHeight = Dimensions.get('window').height;
 
 const variantCSS = {
-  filled: css`
-    background-color: #c63b64;
+  filled: (theme: Theme) => css`
+    background-color: ${theme.colors.Brand.PINK_700};
   `,
-  outlined: css`
-    border-color: #c63b64;
+  outlined: (theme: Theme) => css`
+    border-color: ${theme.colors.Brand.PINK_700};
     border-width: 1px;
   `,
 };
@@ -51,23 +52,30 @@ const CustomButton = ({
   ...props
 }: Props) => {
   return (
-    <Button variant={variant} size={size} {...props}>
-      <ButtonText variant={variant}>{label}</ButtonText>
-    </Button>
+    <S.Button variant={variant} {...props}>
+      <S.TextContainer size={size}>
+        <S.ButtonText variant={variant}>{label}</S.ButtonText>
+      </S.TextContainer>
+    </S.Button>
   );
 };
 
-const Button = styled.Pressable<Omit<Props, 'label'>>`
-  ${({variant = 'filled'}) => variantCSS[variant]};
-  ${({size = 'large'}) => sizeCSS[size]};
-  border-radius: 3px;
-  align-self: flex-start; /* 추가: 버튼을 왼쪽 상단에 정렬합니다. */
-`;
-
-const ButtonText = styled(Text)<Pick<Props, 'variant'>>`
-  ${({variant = 'filled'}) => labelCSS[variant]};
-  font-size: 16px;
-  font-weight: bold;
-`;
+const S = {
+  Button: styled.Pressable<Omit<Props, 'label'>>`
+    ${({variant = 'filled', theme}) => variantCSS[variant](theme)};
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  `,
+  ButtonText: styled(Text)<Pick<Props, 'variant'>>`
+    ${({variant = 'filled'}) => labelCSS[variant]};
+    font-size: 16px;
+    font-weight: bold;
+  `,
+  TextContainer: styled.View<Pick<Props, 'size'>>`
+    ${({size = 'large'}) => sizeCSS[size]};
+  `,
+};
 
 export default CustomButton;
