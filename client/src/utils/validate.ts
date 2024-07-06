@@ -26,7 +26,7 @@ function validateSignUp(values: UserInformation & {passwordConfirm: string}) {
   const errors = validateUser(values);
   const signUpErrors = {...errors, passwordConfirm: ''};
 
-  if (!(values.password !== values.passwordConfirm)) {
+  if (values.password !== values.passwordConfirm) {
     signUpErrors.passwordConfirm = '비밀번호가 일치하지 않습니다.';
   }
   return signUpErrors;

@@ -5,10 +5,12 @@ import useForm from '@/hooks/useForm';
 import CustomButton from '@/components/CustomButton';
 import {validateSignUp} from '@/utils';
 import {TextInput} from 'react-native';
+import useAuth from '@/hooks/useAuth';
 
 function SignScreen() {
   const passwordRef = React.useRef<TextInput>(null);
   const passwordConfirmRef = React.useRef<TextInput>(null);
+  const {signupMutation, loginMutation} = useAuth();
   const signUp = useForm({
     initialValue: {
       email: '',
@@ -19,7 +21,13 @@ function SignScreen() {
   });
 
   const handleSubmit = () => {
-    console.log(signUp.values);
+    const {email, password} = signUp.values;
+    signupMutation.mutate(
+      {email, password},
+      {
+        onSuccess: () => loginMutation.mutate({email, password}),
+      },
+    );
   };
   return (
     <S.SafeAreaView>

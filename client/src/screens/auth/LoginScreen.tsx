@@ -5,15 +5,19 @@ import CustomButton from '@/components/CustomButton';
 import useForm from '@/hooks/useForm';
 import {validateLogin} from '@/utils';
 import {TextInput} from 'react-native';
+import useAuth from '@/hooks/useAuth';
 
 function LoginScreen() {
   const passwordRef = React.useRef<TextInput>(null);
+  const {loginMutation} = useAuth();
+
   const login = useForm({
     initialValue: {email: '', password: ''},
     validate: validateLogin,
   });
+
   const handleSubmit = () => {
-    console.log(login.values);
+    loginMutation.mutate(login.values);
   };
 
   return (
