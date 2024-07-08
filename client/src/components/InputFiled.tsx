@@ -1,8 +1,7 @@
-import React, {ForwardedRef, forwardRef} from 'react';
+import React, {ForwardedRef, forwardRef, useRef} from 'react';
 import styled, {css} from '@emotion/native';
 import {Pressable, TextInput, TextInputProps} from 'react-native';
 import {getSize} from '@/utils/get-size';
-import {useRef} from 'react';
 import {mergeRefs} from '@/utils';
 
 interface InputFiledProps extends TextInputProps {
