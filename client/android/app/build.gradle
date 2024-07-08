@@ -70,10 +70,15 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     ndkVersion rootProject.ext.ndkVersion
-
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 33
 
     namespace "com.matzipapp"
+
+    compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+    }
+
     defaultConfig {
         applicationId "com.matzipapp"
         minSdkVersion rootProject.ext.minSdkVersion

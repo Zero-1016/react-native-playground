@@ -1,3 +1,5 @@
+require 'json'
+
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -5,7 +7,7 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, min_ios_version_supported
+platform :ios, '13.4'
 prepare_react_native_project!
 
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
@@ -25,8 +27,22 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
+def resolve_module_path(module_name)
+  # Yarn PnP API를 사용하여 패키지 경로를 동적으로 찾습니다.
+  pnp_api_path = File.expand_path('../.pnp.cjs', __dir__)
+  raise "PnP API 파일을 찾을 수 없습니다: #{pnp_api_path}" unless File.exist?(pnp_api_path)
+
+  pnp_api = JSON.parse(`node -e "console.log(JSON.stringify(require(\\\"#{pnp_api_path}\\\").resolveToUnqualified(\\\"#{module_name}\\\", null)))"`)
+  raise "모듈 경로를 찾을 수 없습니다: #{module_name}" unless pnp_api
+
+  File.expand_path(pnp_api)
+end
+
 target 'MatzipApp' do
+  rn_maps_path = resolve_module_path('react-native-maps')
+  pod 'react-native-google-maps', :path => rn_maps_path
   config = use_native_modules!
+end
 
   # Flags change depending on the env values.
   flags = get_default_flags()
