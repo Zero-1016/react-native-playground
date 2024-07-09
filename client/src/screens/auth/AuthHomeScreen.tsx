@@ -2,13 +2,13 @@ import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
 import CustomButton from '@/components/CustomButton';
-import {authNavigations} from '@/constants';
+import {navigations} from '@/constants';
 import styled from '@emotion/native';
 import {getSize} from '@/utils/get-size';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
-  typeof authNavigations.AUTH_HOME
+  typeof navigations.AUTH_HOME
 >;
 
 function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
@@ -23,12 +23,12 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
       <S.ButtonContainer>
         <CustomButton
           label="로그인하기"
-          onPress={() => navigation.navigate(authNavigations.LOGIN)}
+          onPress={() => navigation.navigate(navigations.LOGIN)}
         />
         <CustomButton
           label="회원가입하기"
           variant="outlined"
-          onPress={() => navigation.navigate(authNavigations.SIGNUP)}
+          onPress={() => navigation.navigate(navigations.SIGNUP)}
         />
       </S.ButtonContainer>
     </S.Container>
