@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useMutation, useQuery, UseQueryResult} from '@tanstack/react-query';
+import {useMutation, useQuery} from '@tanstack/react-query';
 
 import {
   getAccessToken,

@@ -3,6 +3,10 @@ export const colors = {
     PINK_200: '#FAE2E9',
     PINK_400: '#EC87A5',
     PINK_700: '#C63B64',
+    BLUE_400: '#B4E0FF',
+    GREEN_400: '#CCE6BA',
+    YELLOW_400: '#FFE594',
+    PURPLE_400: '#C4C4E7',
   },
   System: {
     PINK_500: '#BF5C79',

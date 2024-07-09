@@ -1,5 +1,11 @@
-import React, {useRef} from 'react';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import React, {useRef, useState} from 'react';
+import MapView, {
+  Callout,
+  LatLng,
+  LongPressEvent,
+  Marker,
+  PROVIDER_GOOGLE,
+} from 'react-native-maps';
 import styled from '@emotion/native';
 import {EdgeInsets, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
@@ -7,13 +13,13 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
-import {Text} from 'react-native';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import theme from '@/styles/theme';
 import mapStyle from '@/styles/mapStyle';
+import {colors} from '@/styles/theme/colors';
+import CustomMarker from '@/components/CustomMarker';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -23,9 +29,15 @@ type Navigation = CompositeNavigationProp<
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
+  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const mapRef = useRef<MapView | null>(null);
   usePermission('LOCATION');
   const {userLocation, isUserLocationError} = useUserLocation();
+
+  const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
+    setSelectedLocation(nativeEvent.coordinate);
+  };
+
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       return;
@@ -48,19 +60,29 @@ function MapHomeScreen() {
         showsUserLocation
         followsUserLocation
         showsMyLocationButton={false}
-      />
-      <S.Pressable _inset={inset} onPress={() => navigation.openDrawer()}>
-        <IonicIcons
-          name="menu"
-          color={theme.colors.Grayscale.WHITE}
-          size={25}
+        onLongPress={handleLongPressMapView}>
+        <CustomMarker
+          color={'RED'}
+          score={0}
+          coordinate={{
+            latitude: 37.55160332365118,
+            longitude: 126.98989626020192,
+          }}
         />
+        {selectedLocation && (
+          <Callout>
+            <Marker coordinate={selectedLocation} />
+          </Callout>
+        )}
+      </S.MapView>
+      <S.Pressable _inset={inset} onPress={() => navigation.openDrawer()}>
+        <IonicIcons name="menu" color={colors.Grayscale.WHITE} size={25} />
       </S.Pressable>
       <S.ButtonList>
         <S.MapButton onPress={handlePressUserLocation}>
           <MaterialIcons
             name="my-location"
-            color={theme.colors.Grayscale.WHITE}
+            color={colors.Grayscale.WHITE}
             size={25}
           />
         </S.MapButton>
@@ -80,8 +102,8 @@ const S = {
     padding: 12px 10px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    background-color: ${({theme}) => theme.colors.Brand.PINK_700};
-    shadow-color: ${({theme}) => theme.colors.Grayscale.BLACK};
+    background-color: ${colors.Brand.PINK_700};
+    shadow-color: ${colors.Grayscale.BLACK};
     shadow-offset: 1px 1px;
     shadow-opacity: 0.5;
     elevation: 4;
@@ -92,14 +114,14 @@ const S = {
     right: 15px;
   `,
   MapButton: styled.Pressable`
-    background-color: ${({theme}) => theme.colors.Brand.PINK_700};
+    background-color: ${colors.Brand.PINK_700};
     margin: 0 5px;
     height: 48px;
     width: 48px;
     align-items: center;
     justify-content: center;
     border-radius: 30px;
-    shadow-color: ${({theme}) => theme.colors.Grayscale.BLACK};
+    shadow-color: ${colors.Grayscale.BLACK};
     shadow-offset: 2px 1px;
     shadow-opacity: 0.5;
     elevation: 2;

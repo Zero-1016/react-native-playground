@@ -73,6 +73,15 @@ const mapStyle = [
   },
   {
     featureType: 'road.highway',
+    elementType: 'geometry.fill',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'road.highway',
     elementType: 'labels.text',
     stylers: [
       {
@@ -83,6 +92,15 @@ const mapStyle = [
   {
     featureType: 'road.local',
     elementType: 'labels.text',
+    stylers: [
+      {
+        visibility: 'off',
+      },
+    ],
+  },
+  {
+    featureType: 'transit.line',
+    elementType: 'geometry.fill',
     stylers: [
       {
         visibility: 'off',
