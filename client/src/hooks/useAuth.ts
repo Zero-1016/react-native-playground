@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useMutation, useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, UseQueryResult} from '@tanstack/react-query';
 
 import {
   getAccessToken,
@@ -68,7 +68,9 @@ function useGetRefreshToken() {
   return {isSuccess, isError};
 }
 
-function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
+function useGetProfile(
+  queryOptions?: UseQueryCustomOptions<ResponseProfile, ResponseProfile>,
+) {
   return useQuery({
     queryFn: getProfile,
     queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],

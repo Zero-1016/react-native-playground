@@ -12,7 +12,7 @@ import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import theme from "@/styles/theme";
+import theme from '@/styles/theme';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -48,11 +48,19 @@ function MapHomeScreen() {
         showsMyLocationButton={false}
       />
       <S.Pressable _inset={inset} onPress={() => navigation.openDrawer()}>
-        <IonicIcons name='menu' color={theme.colors.Grayscale.WHITE} size={25}/>
+        <IonicIcons
+          name="menu"
+          color={theme.colors.Grayscale.WHITE}
+          size={25}
+        />
       </S.Pressable>
       <S.ButtonList>
         <S.MapButton onPress={handlePressUserLocation}>
-          <MaterialIcons name='my-location' color={theme.colors.Grayscale.WHITE} size={25}/>
+          <MaterialIcons
+            name="my-location"
+            color={theme.colors.Grayscale.WHITE}
+            size={25}
+          />
         </S.MapButton>
       </S.ButtonList>
     </>
