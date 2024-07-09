@@ -1,12 +1,12 @@
-import axiosInstance from '@/api/axios';
-import {ImageUri} from '@/types/domain';
+import axiosInstance from './axios';
 
-const uploadImages = async (body: FormData): Promise<ImageUri[]> => {
-  const {data} = await axiosInstance.post<ImageUri[]>('/images', body, {
+const uploadImages = async (body: FormData): Promise<string[]> => {
+  const {data} = await axiosInstance.post('/images', body, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   });
+
   return data;
 };
 

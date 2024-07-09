@@ -1,37 +1,37 @@
-import ImagePicker from 'react-native-image-crop-picker';
-import {getFormDataImages} from '@/utils';
-import useMutateImages from '@/hooks/queries/useMutateImages';
-import React from 'react';
-import {ImageUri} from '@/types/domain';
+import {useState} from 'react';
 import {Alert} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+
+import useMutateImages from './queries/useMutateImages';
+import {getFormDataImages} from '@/utils';
+import {ImageUri} from '@/types/domain';
 
 interface UseImagePickerProps {
   initialImages: ImageUri[];
 }
 
 function useImagePicker({initialImages = []}: UseImagePickerProps) {
+  const [imageUris, setImageUris] = useState(initialImages);
   const uploadImages = useMutateImages();
-  const [imageUris, setImageUris] = React.useState<ImageUri[]>(initialImages);
-  const addImageUris = (uris: ImageUri[]) => {
+
+  const addImageUris = (uris: string[]) => {
     if (imageUris.length + uris.length > 5) {
-      Alert.alert(
-        '이미지 갯수를 초과하였습니다.',
-        '이미지는 최대 5개까지 업로드 가능합니다.',
-      );
+      Alert.alert('이미지 개수 초과', '추가 가능한 이미지는 최대 5개입니다.');
       return;
     }
-    setImageUris(prev => [...prev, ...uris]);
+
+    setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
   };
 
-  const deleteImageUri = (uri: ImageUri) => {
-    const newImageUris = imageUris.filter(imageUri => imageUri !== uri);
+  const deleteImageUri = (uri: string) => {
+    const newImageUris = imageUris.filter(image => image.uri !== uri);
     setImageUris(newImageUris);
   };
 
-  const changeImageUrisOrder = (startIndex: number, endIndex: number) => {
+  const changeImageUrisOrder = (fromIndex: number, toIndex: number) => {
     const copyImageUris = [...imageUris];
-    const [removed] = copyImageUris.splice(startIndex, 1);
-    copyImageUris.splice(endIndex, 0, removed);
+    const [removedImage] = copyImageUris.splice(fromIndex, 1);
+    copyImageUris.splice(toIndex, 0, removedImage);
     setImageUris(copyImageUris);
   };
 
@@ -45,14 +45,15 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
       cropperCancelText: '취소',
     })
       .then(images => {
-        const formData = getFormDataImages(images);
+        const formData = getFormDataImages('images', images);
+
         uploadImages.mutate(formData, {
           onSuccess: data => addImageUris(data),
         });
       })
       .catch(error => {
         if (error.code !== 'E_PICKER_CANCELLED') {
-          // 에러 메세지 표시
+          // 에러메세지표시
         }
       });
   };
@@ -62,6 +63,7 @@ function useImagePicker({initialImages = []}: UseImagePickerProps) {
     handleChange,
     delete: deleteImageUri,
     changeOrder: changeImageUrisOrder,
+    isUploading: uploadImages.isPending,
   };
 }
 

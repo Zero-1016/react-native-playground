@@ -11,9 +11,9 @@ import {
 } from '@/api/auth';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils';
 import {numbers, queryKeys, storageKeys} from '@/constants';
-import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/hooks/common';
 import {removeHeader, setHeader} from '@/utils/set-header';
 import queryClient from '@/api/query-client';
+import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/types/common';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -68,9 +68,7 @@ function useGetRefreshToken() {
   return {isSuccess, isError};
 }
 
-function useGetProfile(
-  queryOptions?: UseQueryCustomOptions<ResponseProfile, ResponseProfile>,
-) {
+function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
   return useQuery({
     queryFn: getProfile,
     queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],

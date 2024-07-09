@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
-import {mapNavigations, navigations} from '@/constants';
+import {mapNavigations} from '@/constants';
 import styled from '@emotion/native';
 import InputFiled from '@/components/InputFiled';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -10,7 +10,6 @@ import React, {useEffect} from 'react';
 import useForm from '@/hooks/useForm';
 import {getDateWithSeparator, validateAddPost} from '@/utils';
 import AddPostHeaderRight from '@/components/AddPostHeaderRight';
-import {useMutateCreatePost} from '@/hooks/queries/useMutateCreatePost';
 import {MarkerColor} from '@/types/domain';
 import useGetAddress from '@/hooks/queries/useGetAddress';
 import MarkerSelector from '@/components/MarkerSelector';
@@ -22,6 +21,7 @@ import usePermission from '@/hooks/usePermission';
 import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/PreviewImageList';
 import {TextInput} from 'react-native';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -50,12 +50,12 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const address = useGetAddress(location);
   const handleSubmit = () => {
     const body = {
+      date,
       title: addPost.values.title,
-      date: new Date(),
       description: addPost.values.description,
-      score,
       color: markerColor,
-      imageUris: [],
+      score,
+      imageUris: imagePicker.imageUris,
     };
     createPost.mutate(
       {

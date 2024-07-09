@@ -1,36 +1,35 @@
-import {UseMutationCustomOptions} from '@/hooks/common';
 import {useMutation} from '@tanstack/react-query';
-import {createPost} from '@/api';
-import queryClient from '@/api/query-client';
+
+import {createPost} from '@/api/post';
 import {queryKeys} from '@/constants';
+import {UseMutationCustomOptions} from '@/types/common';
+import queryClient from '@/api/query-client';
 import {Marker} from '@/types/domain';
 
-function useMutateCreatePost(mutateOptions?: UseMutationCustomOptions) {
+function useMutateCreatePost(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: createPost,
     onSuccess: newPost => {
-      // queryClient.invalidateQueries({
-      //   queryKey: [queryKeys.MARKER, queryKeys.GET_MARKERS],
-      // });
-
-      queryClient.setQueriesData<Marker[]>(
-        {queryKey: [queryKeys.MARKER, queryKeys.GET_MARKERS]},
+      queryClient.setQueryData<Marker[]>(
+        [queryKeys.MARKER, queryKeys.GET_MARKERS],
         existingMarkers => {
-          const newMarker: Marker = {
+          const newMarker = {
             id: newPost.id,
-            color: newPost.color,
             latitude: newPost.latitude,
             longitude: newPost.longitude,
+            color: newPost.color,
             score: newPost.score,
           };
+
           return existingMarkers
             ? [...existingMarkers, newMarker]
             : [newMarker];
         },
       );
     },
-    ...mutateOptions,
+
+    ...mutationOptions,
   });
 }
 
-export {useMutateCreatePost};
+export default useMutateCreatePost;

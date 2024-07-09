@@ -6,17 +6,17 @@ import {
 } from '@tanstack/react-query';
 
 type ResponseError = AxiosError<{
-  statusCode: string;
+  statusCode: number;
   message: string;
   error: string;
 }>;
 
 type UseMutationCustomOptions<TData = unknown, TVariables = unknown> = Omit<
-  UseMutationOptions<TData, ResponseError, TVariables>,
+  UseMutationOptions<TData, ResponseError, TVariables, unknown>,
   'mutationFn'
 >;
 
-type UseQueryCustomOptions<TQueryFnData = unknown, TData = unknown> = Omit<
+type UseQueryCustomOptions<TQueryFnData = unknown, TData = TQueryFnData> = Omit<
   UseQueryOptions<TQueryFnData, ResponseError, TData, QueryKey>,
   'queryKey'
 >;

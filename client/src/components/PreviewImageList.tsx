@@ -7,7 +7,7 @@ import IonicIcons from 'react-native-vector-icons/Ionicons';
 
 interface PreviewImageListProps {
   imageUris: ImageUri[];
-  onDelete?: (uri: ImageUri) => void;
+  onDelete?: (uri: string) => void;
   onChangeOrder?: (startIndex: number, endIndex: number) => void;
 }
 
@@ -19,7 +19,7 @@ function PreviewImageList({
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <S.Container>
-        {imageUris.map((uri, index) => (
+        {imageUris.map(({uri}, index) => (
           <S.ImageContainer key={index}>
             <S.Image
               resizeMode="cover"

@@ -23,6 +23,8 @@ import CustomMarker from '@/components/CustomMarker';
 import {Alert} from 'react-native';
 import {alerts, mapNavigations} from '@/constants';
 import {useGetMarkers} from '@/hooks/queries/useGetMarkers';
+import MarkerModal from '@/components/MarkerModal';
+import useModal from '@/hooks/useModal';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -36,10 +38,27 @@ function MapHomeScreen() {
   const mapRef = useRef<MapView | null>(null);
   const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
+  const markerModal = useModal();
+  const [markerId, setMarkerId] = useState<number | null>(null);
+
+  const moveMapView = (coordinate: LatLng) => {
+    mapRef.current?.animateToRegion({
+      ...coordinate,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
+  };
+
   const {userLocation, isUserLocationError} = useUserLocation();
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectedLocation(nativeEvent.coordinate);
+  };
+
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    moveMapView(coordinate);
+    setMarkerId(id);
+    markerModal.show();
   };
 
   const handlePressAddPost = () => {
@@ -62,12 +81,7 @@ function MapHomeScreen() {
       return;
     }
 
-    mapRef.current?.animateToRegion({
-      latitude: userLocation?.latitude,
-      longitude: userLocation?.longitude,
-      longitudeDelta: 0.0922,
-      latitudeDelta: 0.0421,
-    });
+    moveMapView(userLocation);
   };
 
   return (
@@ -91,6 +105,7 @@ function MapHomeScreen() {
             score={score}
             coordinate={coordinate}
             color={color}
+            onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
         {selectedLocation && (
@@ -114,6 +129,11 @@ function MapHomeScreen() {
           />
         </S.MapButton>
       </S.ButtonList>
+      <MarkerModal
+        markerId={markerId}
+        isVisible={markerModal.isVisible}
+        hide={markerModal.hide}
+      />
     </>
   );
 }
