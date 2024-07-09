@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import MapView, {LatLng, PROVIDER_GOOGLE} from 'react-native-maps';
+import React, {useRef} from 'react';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import styled from '@emotion/native';
 import {EdgeInsets, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
@@ -10,6 +10,9 @@ import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {Text} from 'react-native';
 import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
+import IonicIcons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import theme from "@/styles/theme";
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -45,11 +48,11 @@ function MapHomeScreen() {
         showsMyLocationButton={false}
       />
       <S.Pressable _inset={inset} onPress={() => navigation.openDrawer()}>
-        <Text>서랍</Text>
+        <IonicIcons name='menu' color={theme.colors.Grayscale.WHITE} size={25}/>
       </S.Pressable>
       <S.ButtonList>
         <S.MapButton onPress={handlePressUserLocation}>
-          <Text>내 위치</Text>
+          <MaterialIcons name='my-location' color={theme.colors.Grayscale.WHITE} size={25}/>
         </S.MapButton>
       </S.ButtonList>
     </>
