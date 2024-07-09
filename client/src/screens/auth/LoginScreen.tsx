@@ -5,7 +5,7 @@ import CustomButton from '@/components/CustomButton';
 import useForm from '@/hooks/useForm';
 import {validateLogin} from '@/utils';
 import {TextInput} from 'react-native';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/queries/useAuth';
 
 function LoginScreen() {
   const passwordRef = React.useRef<TextInput>(null);

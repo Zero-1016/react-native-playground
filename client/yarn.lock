@@ -2677,6 +2677,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/slider@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "@react-native-community/slider@npm:4.5.2"
+  checksum: 10c0/0aeef9ce4ccb1e8995e49efbe244edf68b4a6274845d8d4fefa07cf7b1bd2d3d43c6a7dc1e8a300fe18ae768c350dcd99d3c2ee88a74f854341d85c24140f80f
+  languageName: node
+  linkType: hard
+
 "@react-native-masked-view/masked-view@npm:^0.3.0":
   version: 0.3.0
   resolution: "@react-native-masked-view/masked-view@npm:0.3.0"
@@ -3304,6 +3311,7 @@ __metadata:
     "@emotion/native": "npm:^11.11.0"
     "@emotion/react": "npm:^11.11.4"
     "@react-native-community/geolocation": "npm:^3.2.1"
+    "@react-native-community/slider": "npm:^4.5.2"
     "@react-native-masked-view/masked-view": "npm:^0.3.0"
     "@react-native/eslint-config": "npm:^0.72.2"
     "@react-native/metro-config": "npm:^0.72.11"

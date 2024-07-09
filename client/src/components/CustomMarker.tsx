@@ -1,11 +1,11 @@
 import React from 'react';
-import {LatLng, MapMarkerProps, Marker} from 'react-native-maps';
+import {LatLng, Marker, MyMarkerProps} from 'react-native-maps';
 import styled from '@emotion/native';
 import {MarkerColor} from '@/types/domain';
 import {colors} from '@/styles/theme/colors';
 
-interface CustomMarkerProps extends MapMarkerProps {
-  coordinate: LatLng;
+interface CustomMarkerProps extends MyMarkerProps {
+  coordinate?: LatLng;
   color: MarkerColor;
   score?: number;
 }
@@ -24,18 +24,24 @@ function CustomMarker({
   score = 5,
   ...props
 }: CustomMarkerProps) {
-  return (
+  const markerView = (
+    <S.Container>
+      <S.MarkerStyled $color={color}>
+        <S.Eye $position="left" />
+        <S.Eye $position="right" />
+        {score > 3 && <M.Good />}
+        {score === 3 && <M.SoSo />}
+        {score < 3 && <M.Bad />}
+      </S.MarkerStyled>
+    </S.Container>
+  );
+
+  return coordinate ? (
     <Marker coordinate={coordinate} {...props}>
-      <S.Container>
-        <S.MarkerStyled $color={color}>
-          <S.Eye $position="left" />
-          <S.Eye $position="right" />
-          {score > 3 && <M.Good />}
-          {score === 3 && <M.SoSo />}
-          {score < 3 && <M.Bad />}
-        </S.MarkerStyled>
-      </S.Container>
+      {markerView}
     </Marker>
+  ) : (
+    markerView
   );
 }
 

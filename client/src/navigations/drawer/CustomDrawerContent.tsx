@@ -5,11 +5,17 @@ import {
 } from '@react-navigation/drawer';
 import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/queries/useAuth';
+import {Text} from 'react-native';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
+  const {logoutMutation} = useAuth();
+  const handleLogout = () => {
+    logoutMutation.mutate(null);
+  };
+
   return (
     <S.SafeAreaView>
       <DrawerContentScrollView
@@ -29,6 +35,9 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           <S.NameText>{nickname ?? email}</S.NameText>
         </S.UserInfoContainer>
         <DrawerItemList {...props} />
+        <S.LogoutButton onPress={handleLogout}>
+          <Text>로그아웃</Text>
+        </S.LogoutButton>
       </DrawerContentScrollView>
     </S.SafeAreaView>
   );
@@ -55,6 +64,10 @@ const S = {
   `,
   NameText: styled.Text`
     color: ${colors.Grayscale.BLACK};
+  `,
+  LogoutButton: styled.Pressable`
+    align-items: flex-end;
+    padding: 10px;
   `,
 };
 

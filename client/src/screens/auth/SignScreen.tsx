@@ -5,7 +5,7 @@ import useForm from '@/hooks/useForm';
 import CustomButton from '@/components/CustomButton';
 import {validateSignUp} from '@/utils';
 import {TextInput} from 'react-native';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/queries/useAuth';
 
 function SignScreen() {
   const passwordRef = React.useRef<TextInput>(null);

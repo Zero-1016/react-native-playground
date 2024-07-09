@@ -68,7 +68,7 @@ const S = {
     justify-content: center;
     flex-direction: row;
   `,
-  ButtonText: styled(Text)<Pick<Props, 'variant'>>`
+  ButtonText: styled.Text<Pick<Props, 'variant'>>`
     ${({variant = 'filled'}) => labelCSS[variant]};
     font-size: 16px;
     font-weight: bold;

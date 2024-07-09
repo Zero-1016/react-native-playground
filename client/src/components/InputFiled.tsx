@@ -1,18 +1,19 @@
-import React, {ForwardedRef, forwardRef, useRef} from 'react';
-import styled, {css} from '@emotion/native';
+import React, {ForwardedRef, forwardRef, ReactNode, useRef} from 'react';
+import styled from '@emotion/native';
 import {Pressable, TextInput, TextInputProps} from 'react-native';
-import {getSize} from '@/utils/get-size';
-import {mergeRefs} from '@/utils';
+import {getSize, mergeRefs} from '@/utils';
+import {colors} from '@/styles/theme/colors';
 
-interface InputFiledProps extends TextInputProps {
-  touched: boolean;
+interface InputFieldProps extends TextInputProps {
+  touched?: boolean;
   disabled?: boolean;
   error?: string;
+  icon?: ReactNode;
 }
 
-const InputFiled = forwardRef(
+const InputField = forwardRef(
   (
-    {touched, disabled = false, error, ...props}: InputFiledProps,
+    {touched, disabled = false, error, icon = null, ...props}: InputFieldProps,
     ref?: ForwardedRef<TextInput>,
   ) => {
     const innerRef = useRef<TextInput>(null);
@@ -23,17 +24,22 @@ const InputFiled = forwardRef(
 
     return (
       <Pressable onPress={handlePressInput}>
-        <S.Container _isError={touched && Boolean(error)}>
-          <S.TextInput
-            ref={ref ? mergeRefs(innerRef, ref) : innerRef}
-            editable={!disabled}
-            disabled={disabled}
-            autoCapitalize="none"
-            spellCheck={false}
-            autoCorrect={false}
-            {...props}
-          />
-          {touched && Boolean(error) && <S.ErrorText>{error}</S.ErrorText>}
+        <S.Container
+          $disabled={disabled}
+          $isError={!!touched && !!error}
+          $multiline={!!props.multiline}>
+          <S.InnerContainer $isIcon={!!icon}>
+            {icon}
+            <S.TextInput
+              ref={ref ? mergeRefs(innerRef, ref) : innerRef}
+              editable={!disabled}
+              autoCapitalize="none"
+              spellCheck={false}
+              autoCorrect={false}
+              {...props}
+            />
+          </S.InnerContainer>
+          {touched && !!error && <S.ErrorText>{error}</S.ErrorText>}
         </S.Container>
       </Pressable>
     );
@@ -41,33 +47,54 @@ const InputFiled = forwardRef(
 );
 
 const S = {
-  Container: styled.View<{_isError: boolean}>`
+  Container: styled.View<{
+    $isError: boolean;
+    $disabled: boolean;
+    $multiline: boolean;
+  }>`
     border-width: 1px;
-    border-color: ${({theme}) => theme.colors.Grayscale.GRAY_200};
-    padding: ${(getSize.deviceHeight > 700 ? 15 : 10) + 'px'};
+    border-color: ${colors.Grayscale.GRAY_200};
+    padding: ${({$multiline}) =>
+      $multiline
+        ? getSize.deviceHeight > 700
+          ? '15px 15px 45px'
+          : '10px 10px 30px'
+        : getSize.deviceHeight > 700
+        ? '15px'
+        : '10px'};
 
-    ${({_isError, theme}) =>
-      _isError &&
-      css`
-        border-width: 1px;
-        border-color: ${theme.colors.System.RED_300};
+    ${({$isError}) =>
+      $isError &&
+      `
+        border-color: ${colors.System.RED_300};
+      `}
+
+    ${({$disabled}) =>
+      $disabled &&
+      `
+        background-color: ${colors.Grayscale.GRAY_200};
+        color: ${colors.Grayscale.GRAY_700};
       `}
   `,
-  TextInput: styled.TextInput<Pick<InputFiledProps, 'disabled'>>`
+  InnerContainer: styled.View<{$isIcon: boolean}>`
+    ${({$isIcon}) =>
+      $isIcon &&
+      `
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+      `}
+  `,
+  TextInput: styled.TextInput`
     font-size: 16px;
     padding: 0;
-    ${({disabled, theme}) =>
-      disabled &&
-      css`
-        background-color: ${theme.colors.Grayscale.GRAY_200};
-        color: ${theme.colors.Grayscale.GRAY_700};
-      `}
+    color: ${colors.Grayscale.BLACK};
   `,
   ErrorText: styled.Text`
-    color: ${({theme}) => theme.colors.System.RED_300};
+    color: ${colors.System.RED_500};
     font-size: 12px;
-    padding-top: 6px;
+    padding-top: 5px;
   `,
 };
 
-export default InputFiled;
+export default InputField;

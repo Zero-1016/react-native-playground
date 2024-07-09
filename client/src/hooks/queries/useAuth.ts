@@ -12,8 +12,8 @@ import {
 import {removeEncryptStorage, setEncryptStorage} from '@/utils';
 import {numbers, queryKeys, storageKeys} from '@/constants';
 import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/hooks/common';
-import queryClient from '@/api/query-client';
 import {removeHeader, setHeader} from '@/utils/set-header';
+import queryClient from '@/api/query-client';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({

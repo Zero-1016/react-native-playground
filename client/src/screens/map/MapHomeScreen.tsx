@@ -20,6 +20,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/styles/mapStyle';
 import {colors} from '@/styles/theme/colors';
 import CustomMarker from '@/components/CustomMarker';
+import {Alert} from 'react-native';
+import {alerts, mapNavigations} from '@/constants';
+import {useGetMarkers} from '@/hooks/queries/useGetMarkers';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -31,11 +34,27 @@ function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const mapRef = useRef<MapView | null>(null);
+  const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
   const {userLocation, isUserLocationError} = useUserLocation();
 
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectedLocation(nativeEvent.coordinate);
+  };
+
+  const handlePressAddPost = () => {
+    if (!selectedLocation) {
+      return Alert.alert(
+        alerts.NOT_SELECTED_LOCATION.TITLE,
+        alerts.NOT_SELECTED_LOCATION.DESCRIPTION,
+      );
+    }
+
+    navigation.navigate(mapNavigations.ADD_POST, {
+      location: selectedLocation,
+    });
+
+    setSelectedLocation(null);
   };
 
   const handlePressUserLocation = () => {
@@ -61,14 +80,14 @@ function MapHomeScreen() {
         followsUserLocation
         showsMyLocationButton={false}
         onLongPress={handleLongPressMapView}>
-        <CustomMarker
-          color={'RED'}
-          score={0}
-          coordinate={{
-            latitude: 37.55160332365118,
-            longitude: 126.98989626020192,
-          }}
-        />
+        {markers.map(({id, score, color, ...coordinate}) => (
+          <CustomMarker
+            key={id}
+            score={score}
+            coordinate={coordinate}
+            color={color}
+          />
+        ))}
         {selectedLocation && (
           <Callout>
             <Marker coordinate={selectedLocation} />
@@ -79,6 +98,9 @@ function MapHomeScreen() {
         <IonicIcons name="menu" color={colors.Grayscale.WHITE} size={25} />
       </S.Pressable>
       <S.ButtonList>
+        <S.MapButton onPress={handlePressAddPost}>
+          <MaterialIcons name="add" color={colors.Grayscale.WHITE} size={25} />
+        </S.MapButton>
         <S.MapButton onPress={handlePressUserLocation}>
           <MaterialIcons
             name="my-location"
@@ -107,11 +129,13 @@ const S = {
     shadow-offset: 1px 1px;
     shadow-opacity: 0.5;
     elevation: 4;
+    shadow-radius: 2px; /* 추가: 그림자 반경 */
   `,
   ButtonList: styled.View`
     position: absolute;
     bottom: 30px;
     right: 15px;
+    gap: 10px;
   `,
   MapButton: styled.Pressable`
     background-color: ${colors.Brand.PINK_700};
@@ -125,6 +149,7 @@ const S = {
     shadow-offset: 2px 1px;
     shadow-opacity: 0.5;
     elevation: 2;
+    shadow-radius: 1px; /* 추가: 그림자 반경 */
   `,
 };
 
