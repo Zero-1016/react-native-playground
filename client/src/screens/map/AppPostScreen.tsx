@@ -8,14 +8,20 @@ import {colors} from '@/styles/theme/colors';
 import CustomButton from '@/components/CustomButton';
 import React, {useEffect} from 'react';
 import useForm from '@/hooks/useForm';
-import {validateAddPost} from '@/utils';
+import {getDateWithSeparator, validateAddPost} from '@/utils';
 import AddPostHeaderRight from '@/components/AddPostHeaderRight';
 import {useMutateCreatePost} from '@/hooks/queries/useMutateCreatePost';
 import {MarkerColor} from '@/types/domain';
-import {TextInput} from 'react-native';
 import useGetAddress from '@/hooks/queries/useGetAddress';
 import MarkerSelector from '@/components/MarkerSelector';
 import ScoreInput from '@/components/ScoreInput';
+import DatePickerOptions from '@/components/DatePickerOptions';
+import useModal from '@/hooks/useModal';
+import ImageInput from '@/components/ImageInput';
+import usePermission from '@/hooks/usePermission';
+import useImagePicker from '@/hooks/useImagePicker';
+import PreviewImageList from '@/components/PreviewImageList';
+import {TextInput} from 'react-native';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -27,10 +33,17 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
 
   const descriptionRef = React.useRef<TextInput>(null);
   const createPost = useMutateCreatePost();
+  const [date, setDate] = React.useState(new Date());
+  const {isVisible, show, hide} = useModal();
+  const [isPicked, setIsPicked] = React.useState<boolean>(false);
+  usePermission('PHOTO');
+
   const addPost = useForm({
     initialValue: {title: '', description: ''},
     validate: validateAddPost,
   });
+
+  const imagePicker = useImagePicker({initialImages: []});
 
   const [markerColor, setMarkerColor] = React.useState<MarkerColor>('RED');
   const [score, setScore] = React.useState<number>(5);
@@ -60,8 +73,17 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
     setMarkerColor(color);
   };
 
-  const handleChangeScore = (score: number) => {
-    setScore(score);
+  const handleChangeScore = (newScore: number) => {
+    setScore(newScore);
+  };
+
+  const handleChangeDate = (newDate: Date) => {
+    setDate(newDate);
+  };
+
+  const handleConfirmDate = () => {
+    setIsPicked(true);
+    hide();
   };
 
   useEffect(() => {
@@ -85,7 +107,12 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
               />
             }
           />
-          <CustomButton label="날짜 선택" size="large" variant="outlined" />
+          <CustomButton
+            label={isPicked ? getDateWithSeparator(date, '. ') : '날짜 선택'}
+            size="large"
+            variant="outlined"
+            onPress={show}
+          />
           <InputFiled
             placeholder="제목을 입력하세요"
             error={addPost.errors.title}
@@ -110,6 +137,20 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             onPressMarker={handleSelectMarker}
           />
           <ScoreInput score={score} onChangeScore={handleChangeScore} />
+          <S.ImagesViewer>
+            <ImageInput onChange={imagePicker.handleChange} />
+            <PreviewImageList
+              imageUris={imagePicker.imageUris}
+              onDelete={imagePicker.delete}
+              onChangeOrder={imagePicker.changeOrder}
+            />
+          </S.ImagesViewer>
+          <DatePickerOptions
+            isVisible={isVisible}
+            date={date}
+            onChangeDate={handleChangeDate}
+            onConfirmDate={handleConfirmDate}
+          />
         </S.InputContainer>
       </S.ScrollView>
     </S.Container>
@@ -128,6 +169,9 @@ const S = {
   InputContainer: styled.View`
     gap: 20px;
     margin-bottom: 20px;
+  `,
+  ImagesViewer: styled.View`
+    flex-direction: row;
   `,
 };
 

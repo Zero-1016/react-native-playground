@@ -3332,8 +3332,10 @@ __metadata:
     prettier: "npm:^2.4.1"
     react: "npm:18.2.0"
     react-native: "npm:0.72.6"
+    react-native-date-picker: "npm:^5.0.4"
     react-native-encrypted-storage: "npm:^4.0.3"
     react-native-gesture-handler: "npm:^2.13.4"
+    react-native-image-crop-picker: "npm:^0.41.2"
     react-native-maps: "npm:1.15.1"
     react-native-permissions: "npm:^4.1.5"
     react-native-reanimated: "npm:^3.5.4"
@@ -8599,6 +8601,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-date-picker@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "react-native-date-picker@npm:5.0.4"
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+  checksum: 10c0/26e630ed351f8d0a463af963da015748fdb998af2e7e1b99370af18bb8b9692772fa6184d292032973d843cb08aa0a61320922357ffa7b567f68048ae3f3f6ac
+  languageName: node
+  linkType: hard
+
 "react-native-encrypted-storage@npm:^4.0.3":
   version: 4.0.3
   resolution: "react-native-encrypted-storage@npm:4.0.3"
@@ -8622,6 +8634,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/87820d12550eaa4904b8f4b0d29579fecd51df62d558e56adbc382324a8fe176aac92384a2b4dd3809006c9628688a7c844ac1b95d5982680e867fffd9fb2839
+  languageName: node
+  linkType: hard
+
+"react-native-image-crop-picker@npm:^0.41.2":
+  version: 0.41.2
+  resolution: "react-native-image-crop-picker@npm:0.41.2"
+  peerDependencies:
+    react-native: ">=0.40.0"
+  checksum: 10c0/8df9baa7107ce5e6f1f9f84e6a0766e3019c6df3bbc95eb88a4d261065959df81c81dcb566a097ca780f8d745e489bed7e390d4fdfedde207b102080bdce81ad
   languageName: node
   linkType: hard
 

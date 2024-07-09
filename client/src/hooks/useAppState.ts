@@ -13,7 +13,6 @@ function useAppState() {
         nextAppState === 'active'
       ) {
         setIsComeback(true);
-        console.log('App has come to the foreground!');
       }
       if (appState.current.match(/active/) && nextAppState === 'background') {
         setIsComeback(false);

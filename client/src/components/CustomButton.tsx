@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css} from '@emotion/native';
-import {Dimensions, PressableProps, Text} from 'react-native';
+import {Dimensions, PressableProps} from 'react-native';
 import {Theme} from '@emotion/react';
 
 const deviceHeight = Dimensions.get('window').height;

@@ -66,7 +66,7 @@ function usePermission(type: PermissionType) {
           break;
       }
     })();
-  }, []);
+  }, [type]);
 }
 
 export default usePermission;

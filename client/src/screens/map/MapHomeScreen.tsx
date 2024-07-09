@@ -78,6 +78,11 @@ function MapHomeScreen() {
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
+        region={{
+          ...userLocation,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
         showsMyLocationButton={false}
         onLongPress={handleLongPressMapView}>
         {markers.map(({id, score, color, ...coordinate}) => (
