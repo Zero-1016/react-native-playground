@@ -13,6 +13,7 @@ import usePermission from '@/hooks/usePermission';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import theme from '@/styles/theme';
+import mapStyle from '@/styles/mapStyle';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -42,6 +43,7 @@ function MapHomeScreen() {
     <>
       <S.MapView
         ref={mapRef}
+        customMapStyle={mapStyle}
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
