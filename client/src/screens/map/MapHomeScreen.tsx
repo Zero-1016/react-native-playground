@@ -9,6 +9,7 @@ import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {Text} from 'react-native';
 import useUserLocation from '@/hooks/useUserLocation';
+import usePermission from '@/hooks/usePermission';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -18,14 +19,15 @@ type Navigation = CompositeNavigationProp<
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const mapView = useRef<MapView | null>(null);
-  const {isUserLocationError, userLocation} = useUserLocation();
+  const mapRef = useRef<MapView | null>(null);
+  usePermission('LOCATION');
+  const {userLocation, isUserLocationError} = useUserLocation();
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       return;
     }
 
-    mapView.current?.animateToRegion({
+    mapRef.current?.animateToRegion({
       latitude: userLocation?.latitude,
       longitude: userLocation?.longitude,
       longitudeDelta: 0.0922,
@@ -36,7 +38,7 @@ function MapHomeScreen() {
   return (
     <>
       <S.MapView
-        ref={mapView}
+        ref={mapRef}
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
