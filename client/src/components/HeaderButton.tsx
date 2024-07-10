@@ -16,6 +16,7 @@ function HeaderButton({
 }: HeaderButtonProps) {
   return (
     <S.Pressable {...props}>
+      {icon}
       {!icon && Boolean(labelText) && (
         <S.Text $hasError={hasError}>{labelText}</S.Text>
       )}

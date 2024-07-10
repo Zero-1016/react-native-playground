@@ -1,14 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import styled from '@emotion/native';
+import FeedList from '@/components/FeedList';
 
 function FeedHomeScreen() {
   return (
-    <View>
-      <Text>피드홈</Text>
-    </View>
+    <S.Container>
+      <FeedList />
+    </S.Container>
   );
 }
 
-const styles = StyleSheet.create({});
+const S = {
+  Container: styled.SafeAreaView``,
+};
 
 export default FeedHomeScreen;
