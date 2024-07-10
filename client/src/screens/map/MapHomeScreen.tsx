@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import {useState} from 'react';
 import MapView, {
   Callout,
   LatLng,
@@ -21,10 +21,12 @@ import mapStyle from '@/styles/mapStyle';
 import {colors} from '@/styles/theme/colors';
 import CustomMarker from '@/components/common/CustomMarker';
 import {Alert} from 'react-native';
-import {alerts, mapNavigations} from '@/constants';
+import {alerts, mapNavigations, numbers} from '@/constants';
 import {useGetMarkers} from '@/hooks/queries/useGetMarkers';
 import MarkerModal from '@/components/map/MarkerModal';
 import useModal from '@/hooks/useModal';
+import useLocationStore from '@/store/useLocationStore';
+import useMoveMapView from '@/hooks/useMoveMapView';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -35,19 +37,11 @@ function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
-  const mapRef = useRef<MapView | null>(null);
   const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
   const markerModal = useModal();
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [markerId, setMarkerId] = useState<number | null>(null);
-
-  const moveMapView = (coordinate: LatLng) => {
-    mapRef.current?.animateToRegion({
-      ...coordinate,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
-  };
 
   const {userLocation, isUserLocationError} = useUserLocation();
 
@@ -92,10 +86,10 @@ function MapHomeScreen() {
         provider={PROVIDER_GOOGLE}
         showsUserLocation
         followsUserLocation
+        onRegionChange={handleChangeDelta}
         region={{
           ...userLocation,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          ...numbers.INITIAL_DELTA,
         }}
         showsMyLocationButton={false}
         onLongPress={handleLongPressMapView}>

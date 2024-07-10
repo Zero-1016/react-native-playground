@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {feedNavigations} from '@/constants';
+import {feedNavigations, mainNavigations, mapNavigations} from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import {Platform, Text, View} from 'react-native';
 import styled from '@emotion/native';
@@ -13,10 +13,14 @@ import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import {EdgeInsets, useSafeAreaInsets} from 'react-native-safe-area-context';
 import useButton from '@/hooks/useButton';
+import {CompositeScreenProps} from '@react-navigation/native';
+import {DrawerScreenProps} from '@react-navigation/drawer';
+import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import useLocationStore from '@/store/useLocationStore';
 
-type FeedDetailScreenProps = StackScreenProps<
-  FeedStackParamList,
-  typeof feedNavigations.FEED_DETAIL
+type FeedDetailScreenProps = CompositeScreenProps<
+  StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
+  DrawerScreenProps<MainDrawerParamList>
 >;
 
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
@@ -24,9 +28,20 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const insets = useSafeAreaInsets();
   const {data: post, isPending, isError} = useGetPost(id);
   const bookMarkButton = useButton();
+
+  const {setMoveLocation} = useLocationStore();
+
   if (isPending || isError) {
     return <></>;
   }
+
+  const handlePressLocation = () => {
+    const {longitude, latitude} = post;
+    setMoveLocation({longitude, latitude});
+    navigation.navigate(mainNavigations.HOME, {
+      screen: mapNavigations.MAP_HOME,
+    });
+  };
 
   return (
     <>
@@ -138,7 +153,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             label="위치보기"
             size="medium"
             variant="filled"
-            onPress={() => {}}
+            onPress={handlePressLocation}
           />
         </S.TabContainer>
       </S.BottomContainer>
