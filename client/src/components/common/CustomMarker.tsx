@@ -1,4 +1,3 @@
-import React from 'react';
 import {LatLng, Marker, MyMarkerProps} from 'react-native-maps';
 import styled from '@emotion/native';
 import {MarkerColor} from '@/types/domain';

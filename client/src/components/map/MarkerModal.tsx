@@ -1,8 +1,8 @@
 import useGetPost from '@/hooks/queries/useGetPost';
-import {Modal, Platform, Text, View} from 'react-native';
+import {Modal, Platform} from 'react-native';
 import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
-import CustomMarker from '@/components/CustomMarker';
+import CustomMarker from '@/components/common/CustomMarker';
 import {getDateWithSeparator, getSize} from '@/utils';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';

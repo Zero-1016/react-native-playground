@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/native';
-import FeedList from '@/components/FeedList';
+import FeedList from '@/components/feed/FeedList';
 
 function FeedHomeScreen() {
   return (

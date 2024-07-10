@@ -1,4 +1,4 @@
-import HeaderButton from '@/components/HeaderButton';
+import HeaderButton from '@/components/common/HeaderButton';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import {colors} from '@/styles/theme/colors';
 import {CompositeNavigationProp} from '@react-navigation/native';

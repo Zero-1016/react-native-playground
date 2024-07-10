@@ -1,6 +1,6 @@
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import {FlatList} from 'react-native';
-import FeedItem from '@/components/FeedItem';
+import FeedItem from '@/components/feed/FeedItem';
 import React from 'react';
 
 function FeedList() {

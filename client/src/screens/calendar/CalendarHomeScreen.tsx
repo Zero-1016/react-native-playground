@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 
 function CalendarHomeScreen() {
   return (
@@ -8,7 +8,5 @@ function CalendarHomeScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default CalendarHomeScreen;

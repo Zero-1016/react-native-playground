@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/native';
-import InputFiled from '@/components/InputFiled';
+import InputFiled from '@/components/common/InputFiled';
 import useForm from '@/hooks/useForm';
-import CustomButton from '@/components/CustomButton';
 import {validateSignUp} from '@/utils';
 import {TextInput} from 'react-native';
 import useAuth from '@/hooks/queries/useAuth';
+import CustomButton from '@/components/common/CustomButton';
 
 function SignScreen() {
   const passwordRef = React.useRef<TextInput>(null);

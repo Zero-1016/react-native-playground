@@ -1,4 +1,3 @@
-import React from 'react';
 import styled, {css} from '@emotion/native';
 import {Dimensions, PressableProps} from 'react-native';
 import {Theme} from '@emotion/react';

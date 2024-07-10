@@ -1,10 +1,10 @@
 import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackParamList} from '@/navigations/stack/AuthStackNavigator';
-import CustomButton from '@/components/CustomButton';
 import {navigations} from '@/constants';
 import styled from '@emotion/native';
 import {getSize} from '@/utils/get-size';
+import CustomButton from '@/components/common/CustomButton';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,

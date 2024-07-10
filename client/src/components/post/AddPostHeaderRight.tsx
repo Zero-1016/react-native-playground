@@ -1,4 +1,4 @@
-import HeaderButton from '@/components/HeaderButton';
+import HeaderButton from '@/components/common/HeaderButton';
 
 function AddPostHeaderRight(onSubmit: () => void) {
   return <HeaderButton labelText="등록" onPress={onSubmit} />;
