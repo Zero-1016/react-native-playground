@@ -3,14 +3,24 @@ import styled from '@emotion/native';
 import {Platform, Text, View} from 'react-native';
 import {getDateWithSeparator, getSize} from '@/utils';
 import {colors} from '@/styles/theme/colors';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
+import {feedNavigations} from '@/constants';
 
 interface FeedItemProps {
   post: ResponsePost;
 }
 
+type Navigation = StackNavigationProp<FeedStackParamList>;
+
 function FeedItem({post}: FeedItemProps) {
+  const navigation = useNavigation<Navigation>();
+  const handlePressFeed = () => {
+    navigation.navigate(feedNavigations.FEED_DETAIL, {id: post.id});
+  };
   return (
-    <S.Container>
+    <S.Container onPress={handlePressFeed}>
       <View>
         {post.images.length > 0 && (
           <S.ImageContainer>
@@ -42,7 +52,7 @@ function FeedItem({post}: FeedItemProps) {
 }
 
 const S = {
-  Container: styled.View`
+  Container: styled.Pressable`
     flex: 1;
     margin: 12px 5px 12px 0;
   `,

@@ -1,15 +1,20 @@
 import styled, {css} from '@emotion/native';
-import {Dimensions, PressableProps} from 'react-native';
+import {PressableProps} from 'react-native';
 import {Theme} from '@emotion/react';
-
-const deviceHeight = Dimensions.get('window').height;
+import {useState} from 'react';
+import {getSize} from '@/utils';
+import useButton from '@/hooks/useButton';
 
 const variantCSS = {
-  filled: (theme: Theme) => css`
-    background-color: ${theme.colors.Brand.PINK_700};
+  filled: (theme: Theme, $isPress: boolean) => css`
+    background-color: ${$isPress
+      ? theme.colors.Brand.PINK_400
+      : theme.colors.Brand.PINK_700};
   `,
-  outlined: (theme: Theme) => css`
-    border-color: ${theme.colors.Brand.PINK_700};
+  outlined: (theme: Theme, $isPress: boolean) => css`
+    border-color: ${$isPress
+      ? theme.colors.Brand.PINK_400
+      : theme.colors.Brand.PINK_700};
     border-width: 1px;
   `,
 };
@@ -17,13 +22,13 @@ const variantCSS = {
 const sizeCSS = {
   large: `
     width: 100%;
-    padding-vertical: ${deviceHeight > 700 ? 15 : 12}px;
+    padding-vertical: ${getSize.deviceHeight > 700 ? 15 : 12}px;
     align-items: center;
     justify-content: center;
   `,
   medium: `
     width: 50%;
-    padding-vertical: ${deviceHeight > 700 ? 12 : 10}px;
+    padding-vertical: ${getSize.deviceHeight > 700 ? 12 : 10}px;
     align-items: center;
     justify-content: center;
   `,
@@ -50,8 +55,15 @@ const CustomButton = ({
   size = 'large',
   ...props
 }: Props) => {
+  const {isPress, handlePressIn, handlePressOut} = useButton();
+
   return (
-    <S.Button variant={variant} {...props}>
+    <S.Button
+      $isPress={isPress}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      variant={variant}
+      {...props}>
       <S.TextContainer size={size}>
         <S.ButtonText variant={variant}>{label}</S.ButtonText>
       </S.TextContainer>
@@ -60,8 +72,9 @@ const CustomButton = ({
 };
 
 const S = {
-  Button: styled.Pressable<Omit<Props, 'label'>>`
-    ${({variant = 'filled', theme}) => variantCSS[variant](theme)};
+  Button: styled.Pressable<Omit<Props, 'label'> & {$isPress: boolean}>`
+    ${({variant = 'filled', theme, $isPress}) =>
+      variantCSS[variant](theme, $isPress)};
     border-radius: 3px;
     align-items: center;
     justify-content: center;

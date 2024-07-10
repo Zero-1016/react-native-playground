@@ -9,11 +9,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {colors} from '@/styles/theme/colors';
 import {getSize} from '@/utils';
 import CustomDrawerContent from '@/navigations/drawer/CustomDrawerContent';
-import FeedStackNavigator from '@/navigations/stack/FeedStackNavigator';
+import FeedStackNavigator, {
+  FeedStackParamList,
+} from '@/navigations/stack/FeedStackNavigator';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
-  [mainNavigations.FEED]: undefined;
+  [mainNavigations.FEED]: NavigatorScreenParams<FeedStackParamList>;
   [mainNavigations.Calender]: undefined;
 };
 

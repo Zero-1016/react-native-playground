@@ -9,12 +9,14 @@ interface PreviewImageListProps {
   imageUris: ImageUri[];
   onDelete?: (uri: string) => void;
   onChangeOrder?: (startIndex: number, endIndex: number) => void;
+  showOption?: boolean;
 }
 
 function PreviewImageList({
   imageUris,
   onDelete,
   onChangeOrder,
+  showOption = false,
 }: PreviewImageListProps) {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -31,36 +33,40 @@ function PreviewImageList({
                 }/${uri}`,
               }}
             />
-            <B.DeleteButton onPress={() => onDelete && onDelete(uri)}>
-              <IonicIcons
-                name="close"
-                size={16}
-                color={colors.Grayscale.WHITE}
-              />
-            </B.DeleteButton>
-            {index > 0 && (
-              <B.LeftButton
-                onPress={() =>
-                  onChangeOrder && onChangeOrder(index, index - 1)
-                }>
-                <IonicIcons
-                  name="arrow-back-outline"
-                  size={16}
-                  color={colors.Grayscale.WHITE}
-                />
-              </B.LeftButton>
-            )}
-            {index < imageUris.length - 1 && (
-              <B.RightButton
-                onPress={() =>
-                  onChangeOrder && onChangeOrder(index, index + 1)
-                }>
-                <IonicIcons
-                  name="arrow-forward-outline"
-                  size={16}
-                  color={colors.Grayscale.WHITE}
-                />
-              </B.RightButton>
+            {showOption && (
+              <>
+                <B.DeleteButton onPress={() => onDelete && onDelete(uri)}>
+                  <IonicIcons
+                    name="close"
+                    size={16}
+                    color={colors.Grayscale.WHITE}
+                  />
+                </B.DeleteButton>
+                {index > 0 && (
+                  <B.LeftButton
+                    onPress={() =>
+                      onChangeOrder && onChangeOrder(index, index - 1)
+                    }>
+                    <IonicIcons
+                      name="arrow-back-outline"
+                      size={16}
+                      color={colors.Grayscale.WHITE}
+                    />
+                  </B.LeftButton>
+                )}
+                {index < imageUris.length - 1 && (
+                  <B.RightButton
+                    onPress={() =>
+                      onChangeOrder && onChangeOrder(index, index + 1)
+                    }>
+                    <IonicIcons
+                      name="arrow-forward-outline"
+                      size={16}
+                      color={colors.Grayscale.WHITE}
+                    />
+                  </B.RightButton>
+                )}
+              </>
             )}
           </S.ImageContainer>
         ))}

@@ -140,6 +140,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
           <S.ImagesViewer>
             <ImageInput onChange={imagePicker.handleChange} />
             <PreviewImageList
+              showOption={true}
               imageUris={imagePicker.imageUris}
               onDelete={imagePicker.delete}
               onChangeOrder={imagePicker.changeOrder}

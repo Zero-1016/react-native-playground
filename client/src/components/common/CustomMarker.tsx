@@ -9,7 +9,7 @@ interface CustomMarkerProps extends MyMarkerProps {
   score?: number;
 }
 
-const colorHex = {
+export const colorHex = {
   RED: colors.Brand.PINK_400,
   BLUE: colors.Brand.BLUE_400,
   GREEN: colors.Brand.GREEN_400,
