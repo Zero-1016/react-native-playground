@@ -2,7 +2,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {feedNavigations, mainNavigations, mapNavigations} from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
-import {Platform, Text, View} from 'react-native';
+import {Platform, Text} from 'react-native';
 import styled from '@emotion/native';
 import {getDateLocaleFormat, getSize} from '@/utils';
 import {colors} from '@/styles/theme/colors';
@@ -55,13 +55,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   return (
     <>
-      <S.Container
-        scrollIndicatorInsets={{right: 1}}
-        style={
-          insets.bottom
-            ? {marginBottom: insets.bottom + 50}
-            : {marginBottom: 65}
-        }>
+      <S.Container scrollIndicatorInsets={{right: 1}} $inset={insets.bottom}>
         <S.HeaderContainer>
           <S.Header>
             <Octicons
@@ -131,21 +125,19 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             <S.InfoRow>
               <S.InfoColumn>
                 <S.InfoColumnKeyText>마커색상</S.InfoColumnKeyText>
-                <S.MarkerColor
-                  style={{backgroundColor: colorHex[post?.color]}}
-                />
+                <S.MarkerColor $color={colorHex[post?.color]} />
               </S.InfoColumn>
             </S.InfoRow>
           </S.InfoContainer>
 
           <S.DescriptionText>{post?.description}</S.DescriptionText>
-
-          {post?.images.length > 0 && (
-            <View>
-              <PreviewImageList imageUris={post?.images} />
-            </View>
-          )}
         </S.ContentsContainer>
+
+        {post?.images.length > 0 && (
+          <S.ImageContentContainer>
+            <PreviewImageList imageUris={post?.images} />
+          </S.ImageContentContainer>
+        )}
       </S.Container>
 
       <S.BottomContainer $inset={insets}>
@@ -177,8 +169,9 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 }
 
 const S = {
-  Container: styled.ScrollView`
+  Container: styled.ScrollView<{$inset: number}>`
     position: relative;
+    margin-bottom: ${({$inset}) => ($inset ? +$inset + 'px' : '65px')};
   `,
   HeaderContainer: styled.SafeAreaView`
     position: absolute;
@@ -251,10 +244,11 @@ const S = {
   InfoColumnKeyValueText: styled.Text`
     color: ${colors.Brand.PINK_700};
   `,
-  MarkerColor: styled.View`
+  MarkerColor: styled.View<{$color: string}>`
     width: 10px;
     height: 10px;
     border-radius: 10px;
+    background-color: ${({$color}) => $color};
   `,
   ImageContentContainer: styled.View`
     padding: 15px 0;
