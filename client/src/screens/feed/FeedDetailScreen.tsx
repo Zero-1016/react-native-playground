@@ -135,7 +135,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
         {post?.images.length > 0 && (
           <S.ImageContentContainer>
-            <PreviewImageList imageUris={post?.images} />
+            <PreviewImageList imageUris={post?.images} zoomEnable />
           </S.ImageContentContainer>
         )}
       </S.Container>
