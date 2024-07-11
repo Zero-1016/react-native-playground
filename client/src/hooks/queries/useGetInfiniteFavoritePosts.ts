@@ -1,4 +1,4 @@
-import {ResponsePost, getPosts, getFavoritePost} from '@/api';
+import {ResponsePost, getFavoritePost} from '@/api';
 import {queryKeys} from '@/constants';
 import {
   InfiniteData,
