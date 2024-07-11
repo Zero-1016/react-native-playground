@@ -13,6 +13,7 @@ export const colors = {
     RED_300: '#FFB4B4',
     RED_500: '#FF5F5F',
     BLUE_500: '#0d8aff',
+    YELLOW_500: '#FACC15',
   },
   Grayscale: {
     WHITE: '#FFFFFF',

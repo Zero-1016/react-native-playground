@@ -21,6 +21,7 @@ import useModal from '@/hooks/useModal';
 import FeedDetailOption from '@/components/feed/FeedDetailOption';
 import {useEffect} from 'react';
 import useDetailStore from '@/store/useDetailStore';
+import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -33,7 +34,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {data: post, isPending, isError} = useGetPost(id);
   const bookMarkButton = useButton();
   const detailOption = useModal();
-
+  const favoriteMutation = useMutateFavoritePost();
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailStore();
 
@@ -51,6 +52,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
     navigation.navigate(mainNavigations.HOME, {
       screen: mapNavigations.MAP_HOME,
     });
+  };
+
+  const handlePressFavorite = () => {
+    favoriteMutation.mutate(post.id);
   };
 
   return (
@@ -144,12 +149,17 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
         <S.TabContainer $noInset={insets.bottom === 0}>
           <S.BookMarkContainer
             $isPress={bookMarkButton.isPress}
+            onPress={handlePressFavorite}
             onPressIn={bookMarkButton.handlePressIn}
             onPressOut={bookMarkButton.handlePressOut}>
             <Octicons
               name="star-fill"
               size={30}
-              color={colors.Grayscale.GRAY_100}
+              color={
+                post?.isFavorite
+                  ? colors.System.YELLOW_500
+                  : colors.Grayscale.GRAY_100
+              }
             />
           </S.BookMarkContainer>
           <CustomButton
