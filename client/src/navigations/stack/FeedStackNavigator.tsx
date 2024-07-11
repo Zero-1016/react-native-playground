@@ -6,10 +6,13 @@ import FeedHomeScreen from '@/screens/feed/FeedHomeScreen';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import {colors} from '@/styles/theme/colors';
+import EditPostScreen from '@/screens/feed/EditPostScreen';
+import {LatLng} from 'react-native-maps';
 
 export type FeedStackParamList = {
   [feedNavigations.FEED_HOME]: undefined;
   [feedNavigations.FEED_DETAIL]: {id: number};
+  [feedNavigations.EDIT_POST]: {location: LatLng};
 };
 
 const Stack = createStackNavigator<FeedStackParamList>();
@@ -47,6 +50,13 @@ function FeedStackNavigator() {
           cardStyle: {
             backgroundColor: colors.Grayscale.GRAY_100,
           },
+        }}
+      />
+      <Stack.Screen
+        name={feedNavigations.EDIT_POST}
+        component={EditPostScreen}
+        options={{
+          headerTitle: '장소 수정',
         }}
       />
     </Stack.Navigator>

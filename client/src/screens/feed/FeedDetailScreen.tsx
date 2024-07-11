@@ -17,6 +17,10 @@ import {CompositeScreenProps} from '@react-navigation/native';
 import {DrawerScreenProps} from '@react-navigation/drawer';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import useLocationStore from '@/store/useLocationStore';
+import useModal from '@/hooks/useModal';
+import FeedDetailOption from '@/components/feed/FeedDetailOption';
+import {useEffect} from 'react';
+import useDetailStore from '@/store/useDetailStore';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -28,8 +32,14 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const insets = useSafeAreaInsets();
   const {data: post, isPending, isError} = useGetPost(id);
   const bookMarkButton = useButton();
+  const detailOption = useModal();
 
   const {setMoveLocation} = useLocationStore();
+  const {setDetailPost} = useDetailStore();
+
+  useEffect(() => {
+    post && setDetailPost(post);
+  }, [post, setDetailPost]);
 
   if (isPending || isError) {
     return <></>;
@@ -61,9 +71,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               onPress={() => navigation.goBack()}
             />
             <IonicIcons
-              name="ellipsis-verical"
+              name="ellipsis-vertical"
               size={30}
               color={colors.Grayscale.WHITE}
+              onPress={detailOption.show}
             />
           </S.Header>
         </S.HeaderContainer>
@@ -157,6 +168,10 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
           />
         </S.TabContainer>
       </S.BottomContainer>
+      <FeedDetailOption
+        isVisible={detailOption.isVisible}
+        hideOption={detailOption.hide}
+      />
     </>
   );
 }
