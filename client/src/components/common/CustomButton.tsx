@@ -1,7 +1,6 @@
 import styled, {css} from '@emotion/native';
 import {PressableProps} from 'react-native';
 import {Theme} from '@emotion/react';
-import {useState} from 'react';
 import {getSize} from '@/utils';
 import useButton from '@/hooks/useButton';
 

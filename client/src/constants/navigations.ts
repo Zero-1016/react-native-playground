@@ -1,7 +1,7 @@
 export const mainNavigations = {
   HOME: 'Home',
   FEED: 'Feed',
-  Calender: 'Calender',
+  CALENDAR: 'Calender',
 } as const;
 
 export const navigations = {
@@ -20,4 +20,9 @@ export const feedNavigations = {
   FEED_DETAIL: 'FeedDetail',
   EDIT_POST: 'EditPost',
   IMAGE_ZOOM: 'ImageZoom',
+} as const;
+
+export const feedTabNavigations = {
+  FEED_HOME: 'FeedTabHome',
+  FEED_FAVORITE: 'FeedTabFavorite',
 } as const;

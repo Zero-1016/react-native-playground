@@ -1,4 +1,4 @@
-import {ResponsePost, getPosts} from '@/api';
+import {ResponsePost, getPosts, getFavoritePost} from '@/api';
 import {queryKeys} from '@/constants';
 import {
   InfiniteData,
@@ -19,7 +19,7 @@ function useGetInfiniteFavoritePosts(
   >,
 ) {
   return useInfiniteQuery({
-    queryFn: ({pageParam}) => getPosts(pageParam),
+    queryFn: ({pageParam}) => getFavoritePost(pageParam),
     queryKey: [
       queryKeys.POST,
       queryKeys.FAVORITE,
