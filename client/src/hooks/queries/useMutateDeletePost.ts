@@ -12,6 +12,10 @@ function useMutateDeletePost(mutationOptions?: UseMutationCustomOptions) {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.POST, queryKeys.GET_POSTS],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: [queryKeys.POST, queryKeys.GET_CALENDAR_POSTS],
+      });
       // queryClient.invalidateQueries({
       //   queryKey: [queryKeys.MARKER, queryKeys.GET_MARKERS],
       // });

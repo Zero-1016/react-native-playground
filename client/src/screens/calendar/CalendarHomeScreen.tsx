@@ -2,7 +2,7 @@ import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
 import Calender from '@/components/calender/Calender';
 import {getMonthYearDetails, getNewMonthYear} from '@/utils';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPosts';
 import EventList from '@/components/calender/EventList';
 
@@ -15,6 +15,15 @@ function CalendarHomeScreen() {
     isPending,
     isError,
   } = useGetCalendarPosts(monthYear.year, monthYear.month);
+
+  const moveToToday = () => {
+    setSelectedDate(new Date().getDate());
+    setMonthYear(getMonthYearDetails(new Date()));
+  };
+
+  useEffect(() => {
+    moveToToday();
+  }, []);
 
   if (isPending || isError) {
     return <></>;
@@ -34,6 +43,7 @@ function CalendarHomeScreen() {
         selectedDate={selectedDate}
         schedules={posts}
         monthYear={monthYear}
+        moveToToday={moveToToday}
         onPressDate={handlePressDate}
         onChangeMonth={handleUpdateMonth}
       />
