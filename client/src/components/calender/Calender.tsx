@@ -7,6 +7,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {isSameAsCurrentDate, type MonthYear} from '@/utils';
 import {FlatList} from 'react-native';
 import DateBox from '@/components/calender/DateBox';
+import useModal from '@/hooks/useModal';
+import YearSelector from '@/components/calender/YearSelector';
 
 interface CalenderProps<T> {
   monthYear: MonthYear;
@@ -24,6 +26,13 @@ function Calender<T>({
   schedules,
 }: CalenderProps<T>) {
   const {month, year, lastDate, firstDOW} = monthYear;
+  const yearSelector = useModal();
+
+  const handleChangeYear = (selectYear: number) => {
+    onChangeMonth((selectYear - year) * 12);
+    yearSelector.hide();
+  };
+
   return (
     <>
       <S.HeaderContainer>
@@ -39,6 +48,7 @@ function Calender<T>({
             {year}년 {month}월
           </S.TitleText>
           <MaterialIcons
+            onPress={yearSelector.show}
             name="keyboard-arrow-down"
             size={20}
             color={colors.Grayscale.GRAY_500}
@@ -71,6 +81,13 @@ function Calender<T>({
           numColumns={7}
         />
       </S.BodyContainer>
+
+      <YearSelector
+        currentYear={year}
+        onChangeYear={handleChangeYear}
+        isVisible={yearSelector.isVisible}
+        hide={yearSelector.hide}
+      />
     </>
   );
 }
