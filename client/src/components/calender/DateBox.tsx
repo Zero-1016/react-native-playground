@@ -7,17 +7,27 @@ interface DateBoxProps {
   isToday: boolean;
   selectedDate: number;
   onPressDate: (date: number) => void;
+  hasSchedule: boolean;
 }
 
-function DateBox({date, selectedDate, onPressDate, isToday}: DateBoxProps) {
+function DateBox({
+  date,
+  selectedDate,
+  onPressDate,
+  isToday,
+  hasSchedule,
+}: DateBoxProps) {
   return (
     <S.Container onPress={() => onPressDate(date)}>
       {date > 0 && (
-        <S.DateContainer $isToday={isToday} $isSelect={date === selectedDate}>
-          <S.DateText $isToday={isToday} $isSelect={date === selectedDate}>
-            {date}
-          </S.DateText>
-        </S.DateContainer>
+        <>
+          <S.DateContainer $isToday={isToday} $isSelect={date === selectedDate}>
+            <S.DateText $isToday={isToday} $isSelect={date === selectedDate}>
+              {date}
+            </S.DateText>
+          </S.DateContainer>
+          {hasSchedule && <S.ScheduleIndicator />}
+        </>
       )}
     </S.Container>
   );
@@ -56,6 +66,13 @@ const S = {
         : $isSelect
         ? colors.Grayscale.WHITE
         : colors.Grayscale.BLACK};
+  `,
+  ScheduleIndicator: styled.View`
+    margin-top: 2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+    background-color: ${colors.Grayscale.GRAY_500};
   `,
 };
 

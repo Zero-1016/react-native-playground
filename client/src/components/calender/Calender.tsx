@@ -8,19 +8,21 @@ import {isSameAsCurrentDate, type MonthYear} from '@/utils';
 import {FlatList} from 'react-native';
 import DateBox from '@/components/calender/DateBox';
 
-interface CalenderProps {
+interface CalenderProps<T> {
   monthYear: MonthYear;
   selectedDate: number;
+  schedules: Record<number, T>;
   onPressDate: (date: number) => void;
   onChangeMonth: (increment: number) => void;
 }
 
-function Calender({
+function Calender<T>({
   onChangeMonth,
   monthYear,
   onPressDate,
   selectedDate,
-}: CalenderProps) {
+  schedules,
+}: CalenderProps<T>) {
   const {month, year, lastDate, firstDOW} = monthYear;
   return (
     <>
@@ -63,6 +65,7 @@ function Calender({
               selectedDate={selectedDate}
               onPressDate={onPressDate}
               date={item.date}
+              hasSchedule={Boolean(schedules[item.date])}
             />
           )}
           numColumns={7}
