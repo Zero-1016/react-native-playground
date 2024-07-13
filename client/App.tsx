@@ -5,6 +5,7 @@ import theme from '@/styles/theme';
 import {ThemeProvider} from '@emotion/react';
 import {QueryClientProvider} from '@tanstack/react-query';
 import queryClient from '@/api/query-client';
+import Toast from 'react-native-toast-message';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <RootNavigator />
+          <Toast />
         </NavigationContainer>
       </ThemeProvider>
     </QueryClientProvider>
