@@ -27,6 +27,7 @@ import MarkerModal from '@/components/map/MarkerModal';
 import useModal from '@/hooks/useModal';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import Toast from 'react-native-toast-message';
+import useLocationStore from '@/store/useLocationStore';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -36,10 +37,10 @@ type Navigation = CompositeNavigationProp<
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
   usePermission('LOCATION');
   const markerModal = useModal();
+  const {selectedLocation, setSelectedLocation} = useLocationStore();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [markerId, setMarkerId] = useState<number | null>(null);
 
@@ -70,6 +71,10 @@ function MapHomeScreen() {
     setSelectedLocation(null);
   };
 
+  const handlePressSearch = () => {
+    navigation.navigate(mapNavigations.SEARCH_LOCATION);
+  };
+
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       Toast.show({
@@ -82,7 +87,6 @@ function MapHomeScreen() {
 
     moveMapView(userLocation);
   };
-
   return (
     <>
       <S.MapView
@@ -119,6 +123,9 @@ function MapHomeScreen() {
       <S.ButtonList>
         <S.MapButton onPress={handlePressAddPost}>
           <MaterialIcons name="add" color={colors.Grayscale.WHITE} size={25} />
+        </S.MapButton>
+        <S.MapButton onPress={handlePressSearch}>
+          <IonicIcons name="search" color={colors.Grayscale.WHITE} size={25} />
         </S.MapButton>
         <S.MapButton onPress={handlePressUserLocation}>
           <MaterialIcons

@@ -13,6 +13,7 @@ export const navigations = {
 export const mapNavigations = {
   MAP_HOME: 'MapHome',
   ADD_POST: 'AddPost',
+  SEARCH_LOCATION: 'SearchLocation',
 } as const;
 
 export const feedNavigations = {
