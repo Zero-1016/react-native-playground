@@ -8,6 +8,7 @@ import {colors} from '@/styles/theme/colors';
 import useAuth from '@/hooks/queries/useAuth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {mainNavigations, settingNavigations} from '@/constants';
+import {Platform} from 'react-native';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
@@ -26,13 +27,31 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={{backgroundColor: colors.Grayscale.WHITE}}>
         <S.UserInfoContainer>
           <S.ImageView>
-            {imageUri === null && kakaoImageUri === null && (
+            {imageUri === null && !!kakaoImageUri && (
               <S.Image source={require('@/assets/user-default.png')} />
             )}
             {imageUri === null && !!kakaoImageUri && (
-              <S.Image source={{uri: kakaoImageUri}} />
+              <S.Image
+                source={{
+                  uri: `${
+                    Platform.OS === 'ios'
+                      ? 'http://localhost:3030/'
+                      : 'http://10.0.2.2:3030/'
+                  }${kakaoImageUri}`,
+                }}
+              />
             )}
-            {imageUri !== null && <S.Image source={{uri: imageUri}} />}
+            {imageUri !== null && (
+              <S.Image
+                source={{
+                  uri: `${
+                    Platform.OS === 'ios'
+                      ? 'http://localhost:3030/'
+                      : 'http://10.0.2.2:3030/'
+                  }${imageUri}`,
+                }}
+              />
+            )}
           </S.ImageView>
           <S.NameText>{nickname ?? email}</S.NameText>
         </S.UserInfoContainer>

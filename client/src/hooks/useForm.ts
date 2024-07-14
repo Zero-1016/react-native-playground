@@ -10,10 +10,11 @@ function useForm<T>({initialValue, validate}: UseFormProps<T>) {
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const handleChangeText = (name: keyof T, text: string) => {
-    setValues({
-      ...values,
+    setValues(prevState => ({
+      ...prevState,
       [name]: text,
-    });
+    }));
+    console.log(text, 'text');
   };
 
   const handleBlur = (name: keyof T) => {

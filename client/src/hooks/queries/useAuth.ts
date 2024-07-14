@@ -3,6 +3,7 @@ import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
   appleLogin,
+  editProfile,
   getAccessToken,
   getProfile,
   kakaoLogin,
@@ -17,6 +18,7 @@ import {numbers, queryKeys, storageKeys} from '@/constants';
 import {removeHeader, setHeader} from '@/utils/set-header';
 import queryClient from '@/api/query-client';
 import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/types/common';
+import Toast from 'react-native-toast-message';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -74,7 +76,7 @@ function useGetRefreshToken() {
       setHeader('Authorization', `Bearer ${data.accessToken}`);
       setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
     }
-  }, [isSuccess]);
+  }, [data, isSuccess]);
 
   useEffect(() => {
     if (isError) {
@@ -91,6 +93,24 @@ function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
     queryFn: getProfile,
     queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
     ...queryOptions,
+  });
+}
+
+function useUpdateProfile(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: editProfile,
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+      Toast.show({
+        type: 'success',
+        text1: '프로필이 변경되었습니다.',
+        position: 'bottom',
+      });
+    },
+    ...mutationOptions,
   });
 }
 
@@ -117,6 +137,7 @@ function useAuth() {
   const kakaoLoginMutation = useKakaoLogin();
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
+  const profileMutation = useUpdateProfile();
 
   return {
     signupMutation,
@@ -126,6 +147,7 @@ function useAuth() {
     kakaoLoginMutation,
     logoutMutation,
     appleLoginMutation,
+    profileMutation,
   };
 }
 

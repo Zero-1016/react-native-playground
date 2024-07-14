@@ -3,6 +3,10 @@ type UserInformation = {
   password: string;
 };
 
+function isBlack(text: string) {
+  return text.trim() === '';
+}
+
 function validateUser({email, password}: UserInformation) {
   const errors = {
     email: '',
@@ -45,4 +49,15 @@ function validateAddPost(values: {title: string}) {
   return errors;
 }
 
-export {validateLogin, validateSignUp, validateAddPost};
+function validateEditProfile(values: {nickname: string}) {
+  const errors = {
+    nickname: '',
+  };
+
+  if (isBlack(values.nickname)) {
+    errors.nickname = '닉네임을 입력해주세요.';
+  }
+  return errors;
+}
+
+export {validateLogin, validateSignUp, validateAddPost, validateEditProfile};
