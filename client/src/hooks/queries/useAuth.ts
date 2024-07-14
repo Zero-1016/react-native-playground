@@ -2,6 +2,7 @@ import {useEffect} from 'react';
 import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
+  appleLogin,
   getAccessToken,
   getProfile,
   kakaoLogin,
@@ -52,6 +53,10 @@ function useEmailLogin(mutationOptions?: UseMutationCustomOptions) {
 
 function useKakaoLogin(mutationOptions?: UseMutationCustomOptions) {
   return useLogin(kakaoLogin, mutationOptions);
+}
+
+function useAppleLogin(mutationOptions?: UseMutationCustomOptions) {
+  return useLogin(appleLogin, mutationOptions);
 }
 
 function useGetRefreshToken() {
@@ -112,6 +117,7 @@ function useAuth() {
   const isLogin = getProfileQuery.isSuccess;
   const loginMutation = useEmailLogin();
   const kakaoLoginMutation = useKakaoLogin();
+  const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
 
   return {
@@ -121,6 +127,7 @@ function useAuth() {
     isLogin,
     kakaoLoginMutation,
     logoutMutation,
+    appleLoginMutation,
   };
 }
 
