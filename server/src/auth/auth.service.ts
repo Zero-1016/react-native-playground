@@ -137,6 +137,8 @@ export class AuthService {
         '프로필 수정 도중 에러가 발생했습니다.',
       );
     }
+
+    return this.getProfile(profile);
   }
 
   async deleteRefreshToken(user: User) {
