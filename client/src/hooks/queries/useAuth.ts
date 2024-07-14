@@ -97,12 +97,10 @@ function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
 function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: logout,
-    onSuccess: () => {
+    onSuccess: async () => {
       removeHeader('Authorization');
-      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({queryKey: [queryKeys.AUTH]});
+      await removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+      await queryClient.resetQueries({queryKey: [queryKeys.AUTH]});
     },
     ...mutationOptions,
   });

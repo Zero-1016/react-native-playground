@@ -6,14 +6,16 @@ import {
 import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
 import useAuth from '@/hooks/queries/useAuth';
-import {Text} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {mainNavigations, settingNavigations} from '@/constants';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
-  const {logoutMutation} = useAuth();
-  const handleLogout = () => {
-    logoutMutation.mutate(null);
+  const handlePressSetting = () => {
+    props.navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.SETTING_HOME,
+    });
   };
 
   return (
@@ -35,10 +37,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           <S.NameText>{nickname ?? email}</S.NameText>
         </S.UserInfoContainer>
         <DrawerItemList {...props} />
-        <S.LogoutButton onPress={handleLogout}>
-          <Text>로그아웃</Text>
-        </S.LogoutButton>
       </DrawerContentScrollView>
+      <S.BottomContainer>
+        <S.BottomMenu onPress={handlePressSetting}>
+          <MaterialIcons
+            name="settings"
+            size={18}
+            color={colors.Grayscale.GRAY_700}
+          />
+          <S.BottomMenuText>설정</S.BottomMenuText>
+        </S.BottomMenu>
+      </S.BottomContainer>
     </S.SafeAreaView>
   );
 }
@@ -65,9 +74,22 @@ const S = {
   NameText: styled.Text`
     color: ${colors.Grayscale.BLACK};
   `,
-  LogoutButton: styled.Pressable`
-    align-items: flex-end;
-    padding: 10px;
+  BottomContainer: styled.View`
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 15px 20px;
+    border-top-width: 1px;
+    border-top-color: ${colors.Grayscale.GRAY_200};
+  `,
+  BottomMenu: styled.Pressable`
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+  `,
+  BottomMenuText: styled.Text`
+    font-weight: 600;
+    font-size: 15px;
+    color: ${colors.Grayscale.GRAY_700};
   `,
 };
 

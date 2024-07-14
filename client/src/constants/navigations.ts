@@ -2,6 +2,7 @@ export const mainNavigations = {
   HOME: 'Home',
   FEED: 'Feed',
   CALENDAR: 'Calender',
+  SETTING: 'Setting',
 } as const;
 
 export const navigations = {
@@ -27,4 +28,9 @@ export const feedNavigations = {
 export const feedTabNavigations = {
   FEED_HOME: 'FeedTabHome',
   FEED_FAVORITE: 'FeedTabFavorite',
+} as const;
+
+export const settingNavigations = {
+  SETTING_HOME: 'SettingHome',
+  EDIT_PROFILE: 'EditProfile',
 } as const;
