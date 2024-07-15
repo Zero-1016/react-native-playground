@@ -67,7 +67,7 @@ function useAppleLogin(mutationOptions?: UseMutationCustomOptions) {
 }
 
 function useGetRefreshToken() {
-  const {data, isSuccess, isError} = useQuery({
+  const {data, isSuccess, isError, isPending} = useQuery({
     queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
     staleTime: numbers.ACCESS_TOKEN_EXPIRATION,
@@ -90,7 +90,7 @@ function useGetRefreshToken() {
     }
   }, [isError]);
 
-  return {isSuccess, isError};
+  return {isSuccess, isError, isPending};
 }
 
 type ResponseSelectProfile = {categories: Category} & Profile;
@@ -192,6 +192,7 @@ function useAuth() {
     onSuccess: () => logoutMutation.mutate(null),
   });
   const categoryMutation = useMutateCategory();
+  const isLoginLoading = refreshTokenQuery.isPending;
 
   return {
     signupMutation,
@@ -205,6 +206,7 @@ function useAuth() {
     deleteAccountMutation,
     editCategoryMutation,
     categoryMutation,
+    isLoginLoading,
   };
 }
 

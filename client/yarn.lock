@@ -3381,6 +3381,7 @@ __metadata:
     react-native-reanimated: "npm:^3.5.4"
     react-native-safe-area-context: "npm:^4.7.4"
     react-native-screens: "npm:^3.27.0"
+    react-native-splash-screen: "npm:^3.3.0"
     react-native-toast-message: "npm:^2.2.0"
     react-native-vector-icons: "npm:^10.1.0"
     react-native-webview: "npm:^13.10.5"
@@ -8783,6 +8784,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/30d0275d1a41915e3b2ca151854ca41ceed0bbdc6baf782e5e886a5842b92e003bb2183e4017bd6b03ee7000ec6312a6570a02901c1a990d0fefcdcf511f1e06
+  languageName: node
+  linkType: hard
+
+"react-native-splash-screen@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "react-native-splash-screen@npm:3.3.0"
+  peerDependencies:
+    react-native: ">=0.57.0"
+  checksum: 10c0/0979585b4087dba0825c94393477fc0301210cfa09eae4a98336e91865765f3c774cf8b20c525b3cea74c588e1e4ff0aa9d7500292ad52979670aa59ab83f0a4
   languageName: node
   linkType: hard
 
