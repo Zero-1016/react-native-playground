@@ -20,6 +20,10 @@ const alerts = {
     TITLE: '삭제하시겠습니까?',
     DESCRIPTION: '피드와 지도에서 모두 삭제됩니다.',
   },
+  DELETE_ACCOUNT: {
+    TITLE: '회원탈퇴하시겠습니까?',
+    DESCRIPTION: '모든 정보가 삭제되며 복구가 불가능합니다.',
+  },
 } as const;
 
 export {alerts, errorMessages};

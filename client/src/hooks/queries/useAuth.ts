@@ -3,6 +3,7 @@ import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 
 import {
   appleLogin,
+  deleteAccount,
   editProfile,
   getAccessToken,
   getProfile,
@@ -126,6 +127,13 @@ function useLogout(mutationOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteAccount,
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const refreshTokenQuery = useGetRefreshToken();
@@ -138,6 +146,9 @@ function useAuth() {
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
   const profileMutation = useUpdateProfile();
+  const deleteAccountMutation = useDeleteAccount({
+    onSuccess: () => logoutMutation.mutate(null),
+  });
 
   return {
     signupMutation,
@@ -148,6 +159,7 @@ function useAuth() {
     logoutMutation,
     appleLoginMutation,
     profileMutation,
+    deleteAccountMutation,
   };
 }
 

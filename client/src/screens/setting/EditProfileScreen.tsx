@@ -14,7 +14,7 @@ import {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import {useEffect} from 'react';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
 import Toast from 'react-native-toast-message';
-import {errorMessages} from '@/constants';
+import {errorMessages, settingNavigations} from '@/constants';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -111,7 +111,8 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         {...editProfile.getTextInputProps('nickname')}
       />
 
-      <S.DeleteAccountContainer>
+      <S.DeleteAccountContainer
+        onPress={() => navigation.navigate(settingNavigations.DELETE_ACCOUNT)}>
         <Ionicons
           name="remove-circle-outline"
           size={18}
@@ -154,7 +155,7 @@ const S = {
     border-radius: 50px;
     border-width: 1px;
   `,
-  DeleteAccountContainer: styled.View`
+  DeleteAccountContainer: styled.Pressable`
     position: absolute;
     flex-direction: row;
     align-items: center;
