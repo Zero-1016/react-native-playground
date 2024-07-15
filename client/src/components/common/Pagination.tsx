@@ -2,6 +2,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 interface PaginationProps {
   pageParam: number;
@@ -18,15 +19,14 @@ function Pagination({
   hasNextPage,
   totalLength,
 }: PaginationProps) {
+  const {theme} = useThemeStore();
   return (
     <S.Container>
       <S.PageButton onPress={fetchPrevPage} disabled={pageParam <= 1}>
         <Octicons
           name="arrow-left"
           size={15}
-          color={
-            pageParam > 1 ? colors.Grayscale.BLACK : colors.Grayscale.GRAY_300
-          }
+          color={pageParam > 1 ? colors[theme].BLACK : colors[theme].GRAY_300}
           onPress={fetchPrevPage}
           disabled={pageParam <= 1}
         />
@@ -46,8 +46,8 @@ function Pagination({
           size={15}
           color={
             totalLength > 0 && hasNextPage
-              ? colors.Grayscale.BLACK
-              : colors.Grayscale.GRAY_300
+              ? colors[theme].BLACK
+              : colors[theme].GRAY_300
           }
           onPress={fetchNextPage}
           disabled={totalLength === 0 || !hasNextPage}
@@ -72,8 +72,8 @@ const S = {
   `,
   PageText: styled.Text<{$isDisabled: boolean}>`
     font-size: 15px;
-    color: ${$isDisabled =>
-      $isDisabled ? colors.Grayscale.BLACK : colors.Grayscale.GRAY_300};
+    color: ${({$isDisabled, theme}) =>
+      $isDisabled ? theme.colors.BLACK : theme.colors.GRAY_300};
   `,
 };
 

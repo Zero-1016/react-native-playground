@@ -1,6 +1,5 @@
 import {Modal} from 'react-native';
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
 import DatePicker from 'react-native-date-picker';
 
 interface DatePickerOptionsProps {
@@ -49,7 +48,7 @@ const S = {
   OptionContainer: styled.View`
     border-radius: 15px;
     margin: 0 10px 10px 10px;
-    background-color: ${colors.Grayscale.GRAY_100};
+    background-color: ${props => props.theme.colors.GRAY_100};
     overflow: hidden;
   `,
   PickerContainer: styled.View`
@@ -63,7 +62,7 @@ const S = {
     gap: 5px;
   `,
   OptionText: styled.Text`
-    color: ${colors.System.BLUE_500};
+    color: ${props => props.theme.colors.BLUE_500};
     font-weight: 500;
   `,
 };

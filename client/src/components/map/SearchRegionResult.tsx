@@ -1,7 +1,7 @@
 import styled from '@emotion/native';
 import {RegionInfo} from '@/hooks/useSearchLocation';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {colors} from '@/styles/theme/colors';
+import {lightColors} from '@/styles/theme/colors';
 import {getSize} from '@/utils';
 import {useNavigation} from '@react-navigation/native';
 import {LatLng} from 'react-native-maps';
@@ -41,7 +41,7 @@ function SearchRegionResult({regionInfo}: SearchRegionResultProps) {
               <Octicons
                 name="location"
                 size={15}
-                color={colors.Brand.PINK_700}
+                color={lightColors.PINK_700}
               />
               <S.PlaceNameText ellipsizeMode="tail" numberOfLines={1}>
                 {info.place_name}
@@ -70,7 +70,7 @@ function SearchRegionResult({regionInfo}: SearchRegionResultProps) {
 const S = {
   Container: styled.View`
     border-width: 1px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     border-radius: 5px;
     height: ${getSize.screenHeight / 2 + 'px'};
     margin: 10px 0;
@@ -81,7 +81,7 @@ const S = {
   `,
   ItemBorder: styled.Pressable<{$isLastItem: boolean}>`
     margin: 5px 10px;
-    border-bottom-color: ${colors.Grayscale.GRAY_300};
+    border-bottom-color: ${props => props.theme.colors.GRAY_300};
     border-bottom-width: ${({$isLastItem}) => ($isLastItem ? '0' : '1px')}
     gap: 3px;
   `,
@@ -91,7 +91,7 @@ const S = {
     align-items: center;
   `,
   PlaceNameText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
     flex-shrink: 1;
     font-size: 16px;
     font-weight: bold;
@@ -101,11 +101,11 @@ const S = {
     gap: 10px;
   `,
   DistanceText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   SubInfoText: styled.Text`
     flex-shrink: 1;
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
   `,
   NoResultContainer: styled.View`
     flex: 1;
@@ -113,7 +113,7 @@ const S = {
     margin-top: 50px;
   `,
   NoResultText: styled.Text`
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
     font-size: 16px;
   `,
 };

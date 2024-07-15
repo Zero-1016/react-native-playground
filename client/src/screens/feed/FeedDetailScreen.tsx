@@ -10,10 +10,8 @@ import useGetPost from '@/hooks/queries/useGetPost';
 import {Platform, Pressable, Text} from 'react-native';
 import styled from '@emotion/native';
 import {getDateLocaleFormat, getSize} from '@/utils';
-import {colors} from '@/styles/theme/colors';
 import Octicons from 'react-native-vector-icons/Octicons';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
-import {colorHex} from '@/components/common/CustomMarker';
 import PreviewImageList from '@/components/common/PreviewImageList';
 import CustomButton from '@/components/common/CustomButton';
 import {EdgeInsets, useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -28,6 +26,8 @@ import {useEffect} from 'react';
 import useDetailStore from '@/store/useDetailStore';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 import useAuth from '@/hooks/queries/useAuth';
+import useThemeStore from '@/store/useThemeStore';
+import {colorHex, colors, lightColors} from '@/styles/theme/colors';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -45,6 +45,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const favoriteMutation = useMutateFavoritePost();
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailStore();
+  const {theme} = useThemeStore();
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -81,13 +82,13 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             <Octicons
               name="arrow-left"
               size={30}
-              color={colors.Grayscale.WHITE}
+              color={colors[theme].WHITE}
               onPress={() => navigation.goBack()}
             />
             <IonicIcons
               name="ellipsis-vertical"
               size={30}
-              color={colors.Grayscale.WHITE}
+              color={colors[theme].WHITE}
               onPress={detailOption.show}
             />
           </S.Header>
@@ -118,7 +119,7 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
             <Octicons
               name="location"
               size={10}
-              color={colors.Grayscale.GRAY_500}
+              color={colors[theme].GRAY_500}
             />
             <S.AddressText ellipsizeMode="tail" numberOfLines={1}>
               {post?.address}
@@ -184,8 +185,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               size={30}
               color={
                 post?.isFavorite
-                  ? colors.System.YELLOW_500
-                  : colors.Grayscale.GRAY_100
+                  ? lightColors.YELLOW_500
+                  : colors[theme].GRAY_100
               }
             />
           </S.BookMarkContainer>
@@ -233,13 +234,13 @@ const S = {
     height: ${getSize.screenWidth + 'px'};
     justify-content: center;
     align-items: center;
-    background-color: ${colors.Grayscale.GRAY_200};
-    border-color: ${colors.Grayscale.GRAY_200};
+    background-color: ${props => props.theme.colors.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     border-width: 1px;
   `,
   ContentsContainer: styled.View`
     padding: 20px 10px;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     margin-bottom: 10px;
   `,
   AddressContainer: styled.View`
@@ -249,16 +250,16 @@ const S = {
     align-items: center;
   `,
   AddressText: styled.Text`
-    color: ${colors.Grayscale.GRAY_200};
+    color: ${props => props.theme.colors.GRAY_200};
     font-size: 12px;
   `,
   TitleText: styled.Text`
     font-size: 22px;
     font-weight: bold;
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   DescriptionText: styled.Text`
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
     line-height: 25px;
     font-size: 16px;
   `,
@@ -276,10 +277,10 @@ const S = {
     gap: 5px;
   `,
   InfoColumnKeyText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   InfoColumnKeyValueText: styled.Text`
-    color: ${colors.Brand.PINK_700};
+    color: ${props => props.theme.colors.PINK_700};
   `,
   MarkerColor: styled.View<{$color: string}>`
     width: 10px;
@@ -289,7 +290,7 @@ const S = {
   `,
   ImageContentContainer: styled.View`
     padding: 15px 0;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     margin-bottom: 10px;
   `,
   BottomContainer: styled.View<{$inset: EdgeInsets}>`
@@ -298,9 +299,9 @@ const S = {
     width: 100%;
     align-items: flex-end;
     padding: 10px 10px ${({$inset}) => ($inset.bottom ? '0' : '10px')};
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     border-width: 0.5px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
   `,
   TabContainer: styled.View<{$noInset: boolean}>`
     flex-direction: row;
@@ -309,8 +310,8 @@ const S = {
     margin-bottom: ${({$noInset}) => ($noInset ? '10px' : '0')};
   `,
   BookMarkContainer: styled.Pressable<{$isPress: boolean}>`
-    background-color: ${({$isPress}) =>
-      $isPress ? colors.Brand.PINK_400 : colors.Brand.PINK_700};
+    background-color: ${({$isPress, theme}) =>
+      $isPress ? theme.colors.PINK_400 : theme.colors.PINK_700};
     height: 100%;
     padding: 0 5px;
     justify-content: center;
@@ -319,7 +320,7 @@ const S = {
   EmptyCategoryContainer: styled.Pressable`
     align-items: center;
     justify-content: center;
-    background-color: ${colors.Grayscale.GRAY_300};
+    background-color: ${props => props.theme.colors.GRAY_300};
     padding: 2px;
     border-radius: 2px;
   `,

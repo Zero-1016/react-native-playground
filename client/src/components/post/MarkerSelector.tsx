@@ -2,7 +2,6 @@ import {ScrollView} from 'react-native';
 import styled from '@emotion/native';
 import CustomMarker from '@/components/common/CustomMarker';
 import {MarkerColor} from '@/types/domain';
-import {colors} from '@/styles/theme/colors';
 
 interface MarkerSelectorProps {
   score: number;
@@ -46,12 +45,12 @@ function MarkerSelector({
 const S = {
   Container: styled.View`
     border-width: 1px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     padding: 15px;
   `,
   MarkerLabel: styled.Text`
     margin-bottom: 15px;
-    color: ${colors.Grayscale.GRAY_700};
+    color: ${props => props.theme.colors.GRAY_700};
   `,
   StylesInputScroll: styled.View`
     flex-direction: row;
@@ -62,10 +61,10 @@ const S = {
     justify-content: center;
     width: 50px;
     height: 50px;
-    background-color: ${colors.Grayscale.GRAY_100};
+    background-color: ${props => props.theme.colors.GRAY_100};
     border-radius: 6px;
-    ${({$select}) =>
-      $select && `border-width: 2px; border-color: ${colors.System.RED_500};`}
+    ${({$select, theme}) =>
+      $select && `border-width: 2px; border-color: ${theme.colors.RED_500};`}
   `,
 };
 

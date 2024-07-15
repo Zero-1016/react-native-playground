@@ -1,6 +1,7 @@
 import Slider from '@react-native-community/slider';
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
+import {colors, lightColors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 interface ScoreInputProps {
   score: number;
@@ -8,6 +9,7 @@ interface ScoreInputProps {
 }
 
 function ScoreInput({score, onChangeScore}: ScoreInputProps) {
+  const {theme} = useThemeStore();
   return (
     <S.Container>
       <S.LabelContainer>
@@ -20,9 +22,9 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
         step={1}
         minimumValue={1}
         maximumValue={5}
-        minimumTrackTintColor={colors.Brand.PINK_700}
-        maximumTrackTintColor={colors.Grayscale.GRAY_300}
-        thumbTintColor={colors.Grayscale.GRAY_100}
+        minimumTrackTintColor={lightColors.PINK_700}
+        maximumTrackTintColor={colors[theme].GRAY_300}
+        thumbTintColor={colors[theme].GRAY_100}
       />
     </S.Container>
   );
@@ -33,14 +35,14 @@ const S = {
     flex: 1;
     padding: 15px;
     border-width: 1px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
   `,
   LabelContainer: styled.View`
     flex-direction: row;
     justify-content: space-between;
   `,
   LabelText: styled.Text`
-    color: ${colors.Grayscale.GRAY_700};
+    color: ${props => props.theme.colors.GRAY_700};
   `,
 };
 

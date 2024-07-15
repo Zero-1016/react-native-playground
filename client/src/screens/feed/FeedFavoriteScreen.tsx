@@ -13,7 +13,7 @@ function FeedFavoriteScreen() {
 const S = {
   Container: styled.SafeAreaView`
     flex: 1;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
   `,
 };
 

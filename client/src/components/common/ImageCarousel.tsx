@@ -6,12 +6,13 @@ import {
 } from 'react-native';
 import {ImageUri} from '@/types/domain';
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
 import {getSize} from '@/utils';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {EdgeInsets, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/styles/theme/colors';
 
 interface ImageCarouselProps {
   images: ImageUri[];
@@ -23,6 +24,7 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
   const navigation = useNavigation();
   const [page, setPage] = useState<number>(pressedIndex);
   const [initialIndex, setInitialIndex] = useState<number>(pressedIndex);
+  const {theme} = useThemeStore();
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const newPage = Math.round(
       e.nativeEvent.contentOffset.x / getSize.screenWidth,
@@ -32,7 +34,7 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
   return (
     <S.Container>
       <S.BackButton $inset={inset} onPress={navigation.goBack}>
-        <Octicons name="arrow-left" size={30} color={colors.Grayscale.WHITE} />
+        <Octicons name="arrow-left" size={30} color={colors[theme].WHITE} />
       </S.BackButton>
       <FlatList
         data={images}
@@ -77,7 +79,7 @@ const S = {
   Container: styled.View`
     flex: 1;
     align-items: center;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
   `,
   ImageContainer: styled.View`
     width: ${getSize.deviceWidth + 'px'};
@@ -86,7 +88,7 @@ const S = {
     position: absolute;
     left: 20px;
     z-index: 1;
-    background-color: ${colors.Brand.PINK_700};
+    background-color: ${props => props.theme.colors.PINK_700};
     height: 40px;
     width: 40px;
     border-radius: 40px;
@@ -106,8 +108,8 @@ const S = {
   `,
   PageDot: styled.View<{$active: boolean}>`
     margin: 4px;
-    background-color: ${({$active}) =>
-      $active ? colors.Brand.PINK_700 : colors.Grayscale.GRAY_200};
+    background-color: ${({$active, theme}) =>
+      $active ? theme.colors.PINK_700 : theme.colors.GRAY_200};
     width: 8px;
     height: 8px;
   `,

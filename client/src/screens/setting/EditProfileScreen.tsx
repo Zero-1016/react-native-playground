@@ -6,7 +6,6 @@ import {validateEditProfile} from '@/utils';
 import InputField from '@/components/common/InputFiled';
 import useImagePicker from '@/hooks/useImagePicker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {colors} from '@/styles/theme/colors';
 import EditProfileImageOption from '@/components/setting/EditProfileImageOption';
 import useModal from '@/hooks/useModal';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -15,6 +14,8 @@ import {useEffect} from 'react';
 import EditProfileHeaderRight from '@/components/setting/EditProfileHeaderRight';
 import Toast from 'react-native-toast-message';
 import {errorMessages, settingNavigations} from '@/constants';
+import useThemeStore from '@/store/useThemeStore';
+import {colors, lightColors} from '@/styles/theme/colors';
 
 type EditProfileScreenProps = StackScreenProps<SettingStackParamList>;
 
@@ -35,6 +36,8 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
       imageOption.hide();
     },
   });
+
+  const {theme} = useThemeStore();
 
   const imageOption = useModal();
 
@@ -72,7 +75,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
             <Ionicons
               name="camera-outline"
               size={30}
-              color={colors.Grayscale.GRAY_500}
+              color={colors[theme].GRAY_500}
             />
           )}
           {imagePicker.imageUris.length === 0 && kakaoImageUri && (
@@ -116,7 +119,7 @@ function EditProfileScreen({navigation}: EditProfileScreenProps) {
         <Ionicons
           name="remove-circle-outline"
           size={18}
-          color={colors.System.RED_500}
+          color={lightColors.RED_500}
         />
         <S.DeleteAccountText>회원 탈퇴</S.DeleteAccountText>
       </S.DeleteAccountContainer>
@@ -151,7 +154,7 @@ const S = {
 
     justify-content: center;
     align-items: center;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     border-radius: 50px;
     border-width: 1px;
   `,
@@ -163,12 +166,12 @@ const S = {
     gap: 5px;
     right: 20px;
     bottom: 70px;
-    background-color: ${colors.Grayscale.GRAY_100};
+    background-color: ${props => props.theme.colors.GRAY_100};
     border-radius: 10px;
     padding: 10px;
   `,
   DeleteAccountText: styled.Text`
-    color: ${colors.System.RED_500};
+    color: ${props => props.theme.colors.RED_500};
     font-size: 15px;
   `,
 };

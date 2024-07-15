@@ -1,5 +1,4 @@
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {colors} from '@/styles/theme/colors';
 import React, {useEffect} from 'react';
 import styled from '@emotion/native';
 import DayOfWeeks from '@/components/calender/DayOfWeeks';
@@ -11,6 +10,8 @@ import useModal from '@/hooks/useModal';
 import YearSelector from '@/components/calender/YearSelector';
 import {useNavigation} from '@react-navigation/native';
 import CalendarHomeHeaderRight from '@/components/calender/CalendarHomeHeaderRight';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/styles/theme/colors';
 
 interface CalenderProps<T> {
   monthYear: MonthYear;
@@ -32,6 +33,7 @@ function Calender<T>({
   const {month, year, lastDate, firstDOW} = monthYear;
   const yearSelector = useModal();
   const navigation = useNavigation();
+  const {theme} = useThemeStore();
   const handleChangeYear = (selectYear: number) => {
     onChangeMonth((selectYear - year) * 12);
     yearSelector.hide();
@@ -47,11 +49,7 @@ function Calender<T>({
     <>
       <S.HeaderContainer>
         <S.MonthButtonContainer onPress={() => onChangeMonth(-1)}>
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={colors.Grayscale.BLACK}
-          />
+          <Ionicons name="arrow-back" size={25} color={colors[theme].BLACK} />
         </S.MonthButtonContainer>
         <S.MonthYearContainer>
           <S.TitleText>
@@ -61,14 +59,14 @@ function Calender<T>({
             onPress={yearSelector.show}
             name="keyboard-arrow-down"
             size={20}
-            color={colors.Grayscale.GRAY_500}
+            color={colors[theme].BLACK}
           />
         </S.MonthYearContainer>
         <S.MonthButtonContainer onPress={() => onChangeMonth(1)}>
           <Ionicons
             name="arrow-forward"
             size={25}
-            color={colors.Grayscale.BLACK}
+            color={colors[theme].BLACK}
           />
         </S.MonthButtonContainer>
       </S.HeaderContainer>
@@ -120,12 +118,12 @@ const S = {
   TitleText: styled.Text`
     font-size: 18px;
     font-weight: 500;
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   BodyContainer: styled.View`
     border-bottom-width: 1px;
-    border-bottom-color: ${colors.Grayscale.GRAY_300};
-    background-color: ${colors.Grayscale.GRAY_100};
+    border-bottom-color: ${props => props.theme.colors.GRAY_300};
+    background-color: ${props => props.theme.colors.GRAY_100};
   `,
 };
 

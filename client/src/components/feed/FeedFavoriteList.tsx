@@ -3,6 +3,7 @@ import FeedItem from '@/components/feed/FeedItem';
 import React, {useState} from 'react';
 import useGetInfiniteFavoritePosts from '@/hooks/queries/useGetInfiniteFavoritePosts';
 import styled from '@emotion/native';
+import useThemeStore from '@/store/useThemeStore';
 
 function FeedFavoriteList() {
   const {
@@ -12,7 +13,7 @@ function FeedFavoriteList() {
     fetchNextPage,
     refetch,
   } = useGetInfiniteFavoritePosts();
-
+  const {theme} = useThemeStore();
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const handleRefresh = async () => {
@@ -44,7 +45,7 @@ function FeedFavoriteList() {
       onRefresh={handleRefresh}
       contentContainerStyle={{padding: 15}}
       scrollIndicatorInsets={{right: 1}}
-      indicatorStyle="black"
+      indicatorStyle={theme === 'light' ? 'black' : 'white'}
     />
   );
 }

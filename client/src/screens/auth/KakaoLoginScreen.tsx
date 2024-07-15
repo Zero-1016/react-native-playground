@@ -8,8 +8,9 @@ import axios from 'axios';
 import useAuth from '@/hooks/queries/useAuth';
 import {ActivityIndicator, Platform} from 'react-native';
 import {useState} from 'react';
-import {colors} from '@/styles/theme/colors';
 import {getSize} from '@/utils';
+import {colors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 const REDIRECT_URI = `${
   Platform.OS === 'ios' ? 'http://localhost:3030' : 'http://10.0.2.2:3030'
@@ -47,11 +48,13 @@ function KakaoLoginScreen() {
     setIsChangeNavigate(event.loading);
   };
 
+  const {theme} = useThemeStore();
+
   return (
     <S.Container>
       {(isChangeNavigate || isLoading) && (
         <S.KaKaoLoadingContainer>
-          <ActivityIndicator size="small" color={colors.Grayscale.BLACK} />
+          <ActivityIndicator size="small" color={colors[theme].BLACK} />
         </S.KaKaoLoadingContainer>
       )}
       <WebView
@@ -71,7 +74,7 @@ const S = {
     flex: 1;
   `,
   KaKaoLoadingContainer: styled.View`
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     height: ${getSize.deviceHeight};
     padding-bottom: 100px;
     align-items: center;

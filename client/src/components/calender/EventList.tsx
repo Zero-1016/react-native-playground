@@ -1,6 +1,5 @@
 import styled from '@emotion/native';
 import {CalenderPost} from '@/api';
-import {colors} from '@/styles/theme/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
@@ -60,7 +59,7 @@ function EventList({posts}: EventListProps) {
 
 const S = {
   Container: styled.ScrollView`
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     padding: 20px;
   `,
   InnerContainer: styled.View<{$insetBottom: number}>`
@@ -71,7 +70,7 @@ const S = {
     flex-direction: row;
   `,
   ItemHeader: styled.View`
-    background-color: ${colors.Brand.PINK_700};
+    background-color: ${props => props.theme.colors.PINK_700};
     width: 6px;
     height: 50px;
     margin-right: 8px;
@@ -81,11 +80,11 @@ const S = {
     justify-content: space-evenly;
   `,
   AddressText: styled.Text`
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
     font-size: 13px;
   `,
   TitleText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
     font-size: 16px;
     font-weight: 600;
   `,

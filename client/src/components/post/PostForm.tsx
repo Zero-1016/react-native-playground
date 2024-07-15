@@ -11,7 +11,6 @@ import useGetAddress from '@/hooks/queries/useGetAddress';
 import AddPostHeaderRight from '@/components/post/AddPostHeaderRight';
 import InputFiled from '@/components/common/InputFiled';
 import Octicons from 'react-native-vector-icons/Octicons';
-import {colors} from '@/styles/theme/colors';
 import CustomButton from '@/components/common/CustomButton';
 import MarkerSelector from '@/components/post/MarkerSelector';
 import ScoreInput from '@/components/post/ScoreInput';
@@ -25,6 +24,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import useDetailStore from '@/store/useDetailStore';
 import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/styles/theme/colors';
 
 interface PostFormProps {
   location: LatLng;
@@ -62,6 +63,7 @@ function PostForm({location, isEdit = false}: PostFormProps) {
   });
   const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
   const address = useGetAddress(location);
+  const {theme} = useThemeStore();
 
   const handleSubmit = () => {
     const body = {
@@ -132,7 +134,7 @@ function PostForm({location, isEdit = false}: PostFormProps) {
               <Octicons
                 name="location"
                 size={16}
-                color={colors.Grayscale.GRAY_500}
+                color={colors[theme].GRAY_500}
               />
             }
           />

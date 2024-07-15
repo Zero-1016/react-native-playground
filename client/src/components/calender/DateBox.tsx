@@ -1,6 +1,5 @@
 import styled from '@emotion/native';
 import {getSize} from '@/utils';
-import {colors} from '@/styles/theme/colors';
 
 interface DateBoxProps {
   date: number;
@@ -38,7 +37,7 @@ const S = {
     width: ${getSize.deviceWidth / 7 + 'px'};
     height: ${getSize.deviceWidth / 7 + 'px'};
     border-top-width: 1px;
-    border-top-color: ${colors.Grayscale.GRAY_200};
+    border-top-color: ${props => props.theme.colors.GRAY_200};
     align-items: center;
   `,
   DateContainer: styled.View<{$isSelect: boolean; $isToday: boolean}>`
@@ -48,31 +47,31 @@ const S = {
     width: 28px;
     height: 28px;
     border-radius: 28px;
-    background-color: ${({$isSelect, $isToday}) =>
+    background-color: ${({$isSelect, $isToday, theme}) =>
       $isToday && $isSelect
-        ? colors.Brand.PINK_700
+        ? theme.colors.PINK_700
         : $isToday && !$isSelect
-        ? colors.Grayscale.WHITE
+        ? theme.colors.WHITE
         : $isSelect
-        ? colors.Grayscale.BLACK
-        : colors.Grayscale.WHITE};
+        ? theme.colors.BLACK
+        : theme.colors.WHITE};
   `,
   DateText: styled.Text<{$isSelect: boolean; $isToday: boolean}>`
     font-size: 17px;
     font-weight: ${({$isToday}) => ($isToday ? 'bold' : 'normal')};
-    color: ${({$isSelect, $isToday}) =>
+    color: ${({$isSelect, $isToday, theme}) =>
       $isToday && !$isSelect
-        ? colors.Brand.PINK_700
+        ? theme.colors.PINK_700
         : $isSelect
-        ? colors.Grayscale.WHITE
-        : colors.Grayscale.BLACK};
+        ? theme.colors.WHITE
+        : theme.colors.BLACK};
   `,
   ScheduleIndicator: styled.View`
     margin-top: 2px;
     width: 6px;
     height: 6px;
     border-radius: 6px;
-    background-color: ${colors.Grayscale.GRAY_500};
+    background-color: ${props => props.theme.colors.GRAY_500};
   `,
 };
 

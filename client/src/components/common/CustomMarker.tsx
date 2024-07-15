@@ -1,21 +1,13 @@
 import {LatLng, Marker, MyMarkerProps} from 'react-native-maps';
 import styled from '@emotion/native';
 import {MarkerColor} from '@/types/domain';
-import {colors} from '@/styles/theme/colors';
+import {colorHex} from '@/styles/theme/colors';
 
 interface CustomMarkerProps extends MyMarkerProps {
   coordinate?: LatLng;
   color: MarkerColor;
   score?: number;
 }
-
-export const colorHex = {
-  RED: colors.Brand.PINK_400,
-  BLUE: colors.Brand.BLUE_400,
-  GREEN: colors.Brand.GREEN_400,
-  YELLOW: colors.Brand.YELLOW_400,
-  PURPLE: colors.Brand.PURPLE_400,
-};
 
 function CustomMarker({
   coordinate,
@@ -56,13 +48,13 @@ const S = {
     height: 27px;
     border-radius: 27px 27px 1px 27px;
     border-width: 1px;
-    border-color: ${colors.Grayscale.BLACK};
+    border-color: ${props => props.theme.colors.BLACK};
     background-color: ${({$color}) => colorHex[$color]};
     position: relative;
   `,
   Eye: styled.View<{$position: 'left' | 'right'}>`
     position: absolute;
-    background-color: ${colors.Grayscale.BLACK};
+    background-color: ${props => props.theme.colors.BLACK};
     width: 4px;
     height: 4px;
     border-radius: 2px;
@@ -87,14 +79,14 @@ const M = {
     margin-left: 5px;
     margin-top: 5px;
     border-right-color: rgba(255, 255, 255, 0.01);
-    border-left-color: ${colors.Grayscale.BLACK};
+    border-left-color: ${props => props.theme.colors.BLACK};
   `,
   SoSo: styled.View`
     margin-left: 13px;
     margin-top: 13px;
     width: 8px;
     height: 8px;
-    border-left-color: ${colors.Grayscale.BLACK};
+    border-left-color: ${props => props.theme.colors.BLACK};
     border-left-width: 1px;
     transform: rotate(45deg);
   `,
@@ -103,7 +95,7 @@ const M = {
     margin-left: 12px;
     margin-top: 12px;
     border-right-color: rgba(255, 255, 255, 0.01);
-    border-left-color: ${colors.Grayscale.BLACK};
+    border-left-color: ${props => props.theme.colors.BLACK};
   `,
 };
 

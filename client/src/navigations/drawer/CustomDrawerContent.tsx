@@ -9,9 +9,11 @@ import useAuth from '@/hooks/queries/useAuth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {mainNavigations, settingNavigations} from '@/constants';
 import {Platform} from 'react-native';
+import useThemeStore from '@/store/useThemeStore';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {getProfileQuery} = useAuth();
+  const {theme} = useThemeStore();
   const {email, nickname, imageUri, kakaoImageUri} = getProfileQuery.data || {};
   const handlePressSetting = () => {
     props.navigation.navigate(mainNavigations.SETTING, {
@@ -24,7 +26,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <DrawerContentScrollView
         {...props}
         scrollEnabled={false}
-        contentContainerStyle={{backgroundColor: colors.Grayscale.WHITE}}>
+        contentContainerStyle={{backgroundColor: colors[theme].WHITE}}>
         <S.UserInfoContainer>
           <S.ImageView>
             {imageUri === null && !!kakaoImageUri && (
@@ -62,7 +64,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
           <MaterialIcons
             name="settings"
             size={18}
-            color={colors.Grayscale.GRAY_700}
+            color={colors[theme].GRAY_700}
           />
           <S.BottomMenuText>설정</S.BottomMenuText>
         </S.BottomMenu>
@@ -91,14 +93,14 @@ const S = {
     margin: 15px 15px 30px 15px;
   `,
   NameText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   BottomContainer: styled.View`
     flex-direction: row;
     justify-content: flex-end;
     padding: 15px 20px;
     border-top-width: 1px;
-    border-top-color: ${colors.Grayscale.GRAY_200};
+    border-top-color: ${props => props.theme.colors.GRAY_200};
   `,
   BottomMenu: styled.Pressable`
     flex-direction: row;
@@ -108,7 +110,7 @@ const S = {
   BottomMenuText: styled.Text`
     font-weight: 600;
     font-size: 15px;
-    color: ${colors.Grayscale.GRAY_700};
+    color: ${props => props.theme.colors.GRAY_700};
   `,
 };
 

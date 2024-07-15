@@ -7,6 +7,7 @@ import {colors} from '@/styles/theme/colors';
 import SettingHeaderLeft from '@/components/setting/SettingHeaderLeft';
 import DeleteAccountScreen from '@/screens/setting/DeleteAccountScreen';
 import EditCategoryScreen from '@/screens/setting/EditCategoryScreen';
+import useThemeStore from '@/store/useThemeStore';
 
 export type SettingStackParamList = {
   [settingNavigations.SETTING_HOME]: undefined;
@@ -18,20 +19,21 @@ export type SettingStackParamList = {
 const Stack = createStackNavigator<SettingStackParamList>();
 
 function FeedStackNavigator() {
+  const {theme} = useThemeStore();
   return (
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          backgroundColor: colors.Grayscale.GRAY_100,
+          backgroundColor: colors[theme].GRAY_100,
         },
         headerStyle: {
           shadowColor: 'gray',
-          backgroundColor: 'white',
+          backgroundColor: theme === 'light' ? 'white' : 'black',
         },
         headerTitleStyle: {
           fontSize: 15,
         },
-        headerTintColor: 'black',
+        headerTintColor: theme === 'light' ? 'black' : 'white',
       }}>
       <Stack.Screen
         name={settingNavigations.SETTING_HOME}
@@ -46,7 +48,7 @@ function FeedStackNavigator() {
         component={EditProfileScreen}
         options={{
           headerTitle: '프로필 수정',
-          cardStyle: {backgroundColor: colors.Grayscale.WHITE},
+          cardStyle: {backgroundColor: colors[theme].WHITE},
         }}
       />
       <Stack.Screen
@@ -54,7 +56,7 @@ function FeedStackNavigator() {
         component={DeleteAccountScreen}
         options={{
           headerTitle: '회원탈퇴',
-          cardStyle: {backgroundColor: colors.Grayscale.WHITE},
+          cardStyle: {backgroundColor: colors[theme].WHITE},
         }}
       />
       <Stack.Screen
@@ -62,7 +64,7 @@ function FeedStackNavigator() {
         component={EditCategoryScreen}
         options={{
           headerTitle: '카테고리 설정',
-          cardStyle: {backgroundColor: colors.Grayscale.WHITE},
+          cardStyle: {backgroundColor: colors[theme].WHITE},
         }}
       />
     </Stack.Navigator>

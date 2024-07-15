@@ -11,7 +11,9 @@ function FeedHomeScreen() {
 }
 
 const S = {
-  Container: styled.SafeAreaView``,
+  Container: styled.SafeAreaView`
+    flex: 1;
+  `,
 };
 
 export default FeedHomeScreen;

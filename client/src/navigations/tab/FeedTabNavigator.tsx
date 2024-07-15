@@ -11,7 +11,8 @@ import FeedStackNavigator from '../stack/FeedStackNavigator';
 import FeedFavoriteScreen from '@/screens/feed/FeedFavoriteScreen';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import {feedNavigations, feedTabNavigations} from '@/constants';
-import {colors} from '@/styles/theme/colors';
+import {colors, lightColors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 export type FeedTabParamList = {
   [feedTabNavigations.FEED_HOME]: {
@@ -25,6 +26,7 @@ export type FeedTabParamList = {
 const Tab = createBottomTabNavigator<FeedTabParamList>();
 
 function TabBarIcons(route: RouteProp<FeedTabParamList>, focused: boolean) {
+  const {theme} = useThemeStore();
   let iconName = '';
 
   switch (route.name) {
@@ -41,29 +43,30 @@ function TabBarIcons(route: RouteProp<FeedTabParamList>, focused: boolean) {
   return (
     <Ionicons
       name={iconName}
-      color={focused ? colors.Brand.PINK_700 : colors.Grayscale.GRAY_500}
+      color={focused ? lightColors.PINK_700 : colors[theme].GRAY_500}
       size={25}
     />
   );
 }
 
 function FeedTabNavigator() {
+  const {theme} = useThemeStore();
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerStyle: {
-          backgroundColor: colors.Grayscale.WHITE,
-          shadowColor: colors.Grayscale.GRAY_200,
+          backgroundColor: colors[theme].WHITE,
+          shadowColor: colors[theme].GRAY_200,
         },
         headerTitleStyle: {
           fontSize: 15,
         },
-        headerTintColor: colors.Grayscale.BLACK,
+        headerTintColor: colors[theme].BLACK,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: colors.Brand.PINK_700,
+        tabBarActiveTintColor: lightColors.PINK_700,
         tabBarStyle: {
-          backgroundColor: colors.Grayscale.WHITE,
-          borderTopColor: colors.Grayscale.GRAY_200,
+          backgroundColor: colors[theme].WHITE,
+          borderTopColor: colors[theme].GRAY_200,
           borderTopWidth: StyleSheet.hairlineWidth,
         },
         tabBarIcon: ({focused}) => TabBarIcons(route, focused),
@@ -87,8 +90,8 @@ function FeedTabNavigator() {
             }
 
             return {
-              backgroundColor: colors.Grayscale.WHITE,
-              borderTopColor: colors.Grayscale.GRAY_200,
+              backgroundColor: colors[theme].WHITE,
+              borderTopColor: colors[theme].GRAY_200,
               borderTopWidth: StyleSheet.hairlineWidth,
             };
           })(route),

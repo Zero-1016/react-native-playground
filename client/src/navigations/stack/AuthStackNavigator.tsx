@@ -5,6 +5,7 @@ import SignScreen from '@/screens/auth/SignScreen';
 import {navigations} from '@/constants';
 import AuthHomeScreen from '@/screens/auth/AuthHomeScreen';
 import KakaoLoginScreen from '@/screens/auth/KakaoLoginScreen';
+import useThemeStore from '@/store/useThemeStore';
 
 export type AuthStackParamList = {
   [navigations.AUTH_HOME]: undefined;
@@ -16,20 +17,21 @@ export type AuthStackParamList = {
 const Stack = createStackNavigator<AuthStackParamList>();
 
 function AuthStackNavigator() {
+  const {theme} = useThemeStore();
   return (
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          backgroundColor: 'white',
+          backgroundColor: theme === 'light' ? 'white' : 'black',
         },
         headerStyle: {
           shadowColor: 'gray',
-          backgroundColor: 'white',
+          backgroundColor: theme === 'light' ? 'white' : 'black',
         },
         headerTitleStyle: {
           fontSize: 15,
         },
-        headerTintColor: 'black',
+        headerTintColor: theme === 'light' ? 'black' : 'white',
       }}>
       <Stack.Screen
         name={navigations.AUTH_HOME}

@@ -3,6 +3,7 @@ import {ReactNode} from 'react';
 import useButton from '@/hooks/useButton';
 import styled from '@emotion/native';
 import {colors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 interface SettingItemProps extends PressableProps {
   title: string;
@@ -19,6 +20,7 @@ function SettingItem({
   ...props
 }: SettingItemProps) {
   const {isPress, handlePressIn, handlePressOut} = useButton();
+  const {theme} = useThemeStore();
   return (
     <S.Container
       onPressIn={handlePressIn}
@@ -27,9 +29,7 @@ function SettingItem({
       {...props}>
       {icon}
       <S.TitleContainer>
-        <S.TitleText $color={color ?? colors.Grayscale.BLACK}>
-          {title}
-        </S.TitleText>
+        <S.TitleText $color={color ?? colors[theme].BLACK}>{title}</S.TitleText>
         {subTitle && <S.SubTitleText>{subTitle}</S.SubTitleText>}
       </S.TitleContainer>
     </S.Container>
@@ -42,11 +42,11 @@ const S = {
     align-items: center;
     gap: 10px;
     padding: 15px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     border-bottom-width: 1px;
     border-top-width: 1px;
-    background-color: ${({$isPress}) =>
-      $isPress ? colors.Grayscale.GRAY_200 : colors.Grayscale.WHITE};
+    background-color: ${({$isPress, theme}) =>
+      $isPress ? theme.colors.GRAY_200 : theme.colors.WHITE};
   `,
   TitleContainer: styled.View`
     flex: 1;
@@ -59,7 +59,7 @@ const S = {
     color: ${({$color}) => $color};
   `,
   SubTitleText: styled.Text`
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
   `,
 };
 

@@ -8,13 +8,11 @@ import {ReactNode} from 'react';
 const variantCSS = {
   filled: (theme: Theme, $isPress: boolean) => css`
     background-color: ${$isPress
-      ? theme.colors.Brand.PINK_400
-      : theme.colors.Brand.PINK_700};
+      ? theme.colors.PINK_400
+      : theme.colors.PINK_700};
   `,
   outlined: (theme: Theme, $isPress: boolean) => css`
-    border-color: ${$isPress
-      ? theme.colors.Brand.PINK_400
-      : theme.colors.Brand.PINK_700};
+    border-color: ${$isPress ? theme.colors.PINK_400 : theme.colors.PINK_700};
     border-width: 1px;
   `,
 };

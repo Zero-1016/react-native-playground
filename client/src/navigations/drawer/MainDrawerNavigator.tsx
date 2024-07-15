@@ -9,10 +9,11 @@ import MapStackNavigator, {MapStackParamList} from '../stack/MapStackNavigator';
 import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import {mainNavigations} from '@/constants';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
-import {colors} from '@/styles/theme/colors';
+import {colors, lightColors} from '@/styles/theme/colors';
 import SettingStackNavigator, {
   SettingStackParamList,
 } from '@/navigations/stack/SettingStackNavigator';
+import useThemeStore from '@/store/useThemeStore';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
@@ -24,6 +25,7 @@ export type MainDrawerParamList = {
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
+  const {theme} = useThemeStore();
   let iconName = '';
 
   switch (route.name) {
@@ -48,13 +50,14 @@ function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
   return (
     <MaterialIcons
       name={iconName}
-      color={focused ? colors.Grayscale.BLACK : colors.Grayscale.GRAY_500}
+      color={focused ? colors[theme].BLACK : colors[theme].GRAY_500}
       size={18}
     />
   );
 }
 
 function MainDrawerNavigator() {
+  const {theme} = useThemeStore();
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}
@@ -63,12 +66,13 @@ function MainDrawerNavigator() {
         drawerType: 'front',
         drawerStyle: {
           width: Dimensions.get('screen').width * 0.6,
-          backgroundColor: colors.Grayscale.WHITE,
+          backgroundColor: colors[theme].WHITE,
         },
-        drawerActiveTintColor: colors.Grayscale.BLACK,
-        drawerInactiveTintColor: colors.Grayscale.GRAY_500,
-        drawerActiveBackgroundColor: colors.Brand.PINK_200,
-        drawerInactiveBackgroundColor: colors.Grayscale.GRAY_100,
+        drawerActiveTintColor: colors[theme].BLACK,
+        drawerInactiveTintColor: colors[theme].GRAY_500,
+        drawerActiveBackgroundColor:
+          theme === 'light' ? lightColors.PINK_200 : colors[theme].GRAY_300,
+        drawerInactiveBackgroundColor: colors[theme].GRAY_100,
         drawerLabelStyle: {
           fontWeight: '600',
         },
@@ -95,6 +99,10 @@ function MainDrawerNavigator() {
         options={({navigation}) => ({
           title: '캘린더',
           headerShown: true,
+          headerStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
+          headerTintColor: colors[theme].BLACK,
           headerLeft: () => FeedHomeHeaderLeft(navigation),
         })}
       />

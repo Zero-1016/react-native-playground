@@ -7,7 +7,6 @@ import {getSize} from '@/utils/get-size';
 import CustomButton from '@/components/common/CustomButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Platform, Pressable} from 'react-native';
-import {colors} from '@/styles/theme/colors';
 import {
   appleAuth,
   AppleButton,
@@ -119,7 +118,7 @@ const S = {
     text-align: center;
     font-weight: 500;
     padding: 10px;
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   AppleCustomButton: styled(AppleButton)`
     width: ${getSize.screenWidth - 60 + 'px'};

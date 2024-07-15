@@ -1,9 +1,13 @@
-import {colors} from '@/styles/theme/colors';
+import {lightColors, darkColors} from '@/styles/theme/colors';
 
-const theme = {
-  colors,
+const lightTheme = {
+  colors: lightColors,
 };
 
-export default theme;
+const darkTheme = {
+  colors: darkColors,
+};
 
-export type ThemeType = typeof theme;
+export {lightTheme, darkTheme};
+
+export type ThemeType = typeof lightTheme;

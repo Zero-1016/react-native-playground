@@ -2,7 +2,6 @@ import React, {ForwardedRef, forwardRef, ReactNode, useRef} from 'react';
 import styled from '@emotion/native';
 import {Pressable, TextInput, TextInputProps} from 'react-native';
 import {getSize, mergeRefs} from '@/utils';
-import {colors} from '@/styles/theme/colors';
 
 interface InputFieldProps extends TextInputProps {
   touched?: boolean;
@@ -53,7 +52,7 @@ const S = {
     $multiline: boolean;
   }>`
     border-width: 1px;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     padding: ${({$multiline}) =>
       $multiline
         ? getSize.deviceHeight > 700
@@ -63,17 +62,17 @@ const S = {
         ? '15px'
         : '10px'};
 
-    ${({$isError}) =>
+    ${({$isError, theme}) =>
       $isError &&
       `
-        border-color: ${colors.System.RED_300};
+        border-color: ${theme.colors.RED_300};
       `}
 
-    ${({$disabled}) =>
+    ${({$disabled, theme}) =>
       $disabled &&
       `
-        background-color: ${colors.Grayscale.GRAY_200};
-        color: ${colors.Grayscale.GRAY_700};
+        background-color: ${theme.colors.GRAY_200};
+        color: ${theme.colors.GRAY_700};
       `}
   `,
   InnerContainer: styled.View<{$isIcon: boolean}>`
@@ -88,10 +87,10 @@ const S = {
   TextInput: styled.TextInput`
     font-size: 16px;
     padding: 0;
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   ErrorText: styled.Text`
-    color: ${colors.System.RED_500};
+    color: ${props => props.theme.colors.RED_500};
     font-size: 12px;
     padding-top: 5px;
   `,

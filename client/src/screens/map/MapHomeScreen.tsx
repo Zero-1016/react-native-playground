@@ -17,8 +17,6 @@ import useUserLocation from '@/hooks/useUserLocation';
 import usePermission from '@/hooks/usePermission';
 import IonicIcons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import mapStyle from '@/styles/mapStyle';
-import {colors} from '@/styles/theme/colors';
 import CustomMarker from '@/components/common/CustomMarker';
 import {Alert} from 'react-native';
 import {alerts, mapNavigations, numbers} from '@/constants';
@@ -28,6 +26,9 @@ import useModal from '@/hooks/useModal';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import Toast from 'react-native-toast-message';
 import useLocationStore from '@/store/useLocationStore';
+import useThemeStore from '@/store/useThemeStore';
+import {colors, darkColors, lightColors} from '@/styles/theme/colors';
+import {getMapStyle} from '@/styles/mapStyle';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -46,6 +47,8 @@ function MapHomeScreen() {
 
   const {userLocation, isUserLocationError} = useUserLocation();
 
+  const {theme} = useThemeStore();
+  const mapStyle = getMapStyle(theme);
   const handleLongPressMapView = ({nativeEvent}: LongPressEvent) => {
     setSelectedLocation(nativeEvent.coordinate);
   };
@@ -87,6 +90,10 @@ function MapHomeScreen() {
 
     moveMapView(userLocation);
   };
+
+  const buttonBackgroundColor =
+    theme === 'light' ? lightColors.PINK_700 : darkColors.GRAY_300;
+
   return (
     <>
       <S.MapView
@@ -117,20 +124,49 @@ function MapHomeScreen() {
           </Callout>
         )}
       </S.MapView>
-      <S.Pressable _inset={inset} onPress={() => navigation.openDrawer()}>
-        <IonicIcons name="menu" color={colors.Grayscale.WHITE} size={25} />
+      <S.Pressable
+        _inset={inset}
+        $backgroundColor={buttonBackgroundColor}
+        onPress={() => navigation.openDrawer()}>
+        <IonicIcons
+          name="menu"
+          color={
+            theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_700
+          }
+          size={25}
+        />
       </S.Pressable>
       <S.ButtonList>
-        <S.MapButton onPress={handlePressAddPost}>
-          <MaterialIcons name="add" color={colors.Grayscale.WHITE} size={25} />
+        <S.MapButton
+          $backgroundColor={buttonBackgroundColor}
+          onPress={handlePressAddPost}>
+          <MaterialIcons
+            name="add"
+            color={
+              theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_700
+            }
+            size={25}
+          />
         </S.MapButton>
-        <S.MapButton onPress={handlePressSearch}>
-          <IonicIcons name="search" color={colors.Grayscale.WHITE} size={25} />
+        <S.MapButton
+          $backgroundColor={buttonBackgroundColor}
+          onPress={handlePressSearch}>
+          <IonicIcons
+            name="search"
+            color={
+              theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_700
+            }
+            size={25}
+          />
         </S.MapButton>
-        <S.MapButton onPress={handlePressUserLocation}>
+        <S.MapButton
+          $backgroundColor={buttonBackgroundColor}
+          onPress={handlePressUserLocation}>
           <MaterialIcons
             name="my-location"
-            color={colors.Grayscale.WHITE}
+            color={
+              theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_700
+            }
             size={25}
           />
         </S.MapButton>
@@ -148,15 +184,15 @@ const S = {
   MapView: styled(MapView)`
     flex: 1;
   `,
-  Pressable: styled.Pressable<{_inset: EdgeInsets}>`
+  Pressable: styled.Pressable<{_inset: EdgeInsets; $backgroundColor: string}>`
     position: absolute;
     top: ${({_inset}) => (_inset.top ? _inset.top : 10 + 'px')};
     left: 0;
     padding: 12px 10px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    background-color: ${colors.Brand.PINK_700};
-    shadow-color: ${colors.Grayscale.BLACK};
+    background-color: ${({$backgroundColor}) => $backgroundColor};
+    shadow-color: ${props => props.theme.colors.BLACK};
     shadow-offset: 1px 1px;
     shadow-opacity: 0.5;
     elevation: 4;
@@ -168,15 +204,15 @@ const S = {
     right: 15px;
     gap: 10px;
   `,
-  MapButton: styled.Pressable`
-    background-color: ${colors.Brand.PINK_700};
+  MapButton: styled.Pressable<{$backgroundColor: string}>`
+    background-color: ${({$backgroundColor}) => $backgroundColor};
     margin: 0 5px;
     height: 48px;
     width: 48px;
     align-items: center;
     justify-content: center;
     border-radius: 30px;
-    shadow-color: ${colors.Grayscale.BLACK};
+    shadow-color: ${props => props.theme.colors.BLACK};
     shadow-offset: 2px 1px;
     shadow-opacity: 0.5;
     elevation: 2;

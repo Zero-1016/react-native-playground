@@ -2,8 +2,9 @@ import styled from '@emotion/native';
 import {numbers} from '@/constants';
 import {FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {colors} from '@/styles/theme/colors';
 import React, {useEffect, useState} from 'react';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/styles/theme/colors';
 
 interface YearSelectorProps {
   isVisible: boolean;
@@ -19,7 +20,7 @@ function YearSelector({
   hide,
 }: YearSelectorProps) {
   const [scrollY, setScrollY] = useState(0);
-
+  const {theme} = useThemeStore();
   useEffect(() => {
     const yearIndex = currentYear - numbers.MIN_CALENDAR_YEAR;
     const currentRow = Math.floor(
@@ -69,7 +70,7 @@ function YearSelector({
             <MaterialIcons
               name="keyboard-arrow-down"
               size={20}
-              color={colors.Grayscale.BLACK}
+              color={colors[theme].BLACK}
             />
           </S.CloseButton>
         </S.Container>
@@ -85,24 +86,24 @@ const S = {
   `,
   YearsContainer: styled.View`
     align-items: center;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
   `,
   ScrollContainer: styled(FlatList<{num: number}>)`
     max-height: 200px;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
   `,
   CloseButton: styled.Pressable`
     flex: 1;
-    background-color: ${colors.Grayscale.WHITE};
+    background-color: ${props => props.theme.colors.WHITE};
     padding: 15px;
     align-items: center;
     justify-content: center;
     border-top-width: 1px;
     border-bottom-width: 1px;
-    border-color: ${colors.Grayscale.GRAY_500};
+    border-color: ${props => props.theme.colors.GRAY_500};
   `,
   CloseText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
     font-size: 16px;
     font-weight: bold;
   `,
@@ -112,10 +113,10 @@ const S = {
     padding: 10px;
     margin: 5px;
     border-width: 1px;
-    border-color: ${({$isCurrentYear}) =>
-      $isCurrentYear ? colors.Brand.PINK_700 : colors.Grayscale.GRAY_500};
-    background-color: ${({$isCurrentYear}) =>
-      $isCurrentYear ? colors.Brand.PINK_700 : colors.Grayscale.WHITE};
+    border-color: ${({$isCurrentYear, theme}) =>
+      $isCurrentYear ? theme.colors.PINK_700 : theme.colors.GRAY_500};
+    background-color: ${({$isCurrentYear, theme}) =>
+      $isCurrentYear ? theme.colors.PINK_700 : theme.colors.WHITE};
     border-radius: 2px;
     align-items: center;
     justify-content: center;
@@ -123,8 +124,8 @@ const S = {
   YearText: styled.Text<{$isCurrentYear: boolean}>`
     font-size: 16px;
     font-weight: ${({$isCurrentYear}) => ($isCurrentYear ? 'bold' : 'normal')};
-    color: ${({$isCurrentYear}) =>
-      $isCurrentYear ? colors.Grayscale.WHITE : colors.Grayscale.GRAY_700};
+    color: ${({$isCurrentYear, theme}) =>
+      $isCurrentYear ? theme.colors.WHITE : theme.colors.GRAY_700};
   `,
 };
 

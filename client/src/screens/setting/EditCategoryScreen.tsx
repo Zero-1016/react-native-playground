@@ -1,8 +1,7 @@
 import useAuth from '@/hooks/queries/useAuth';
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
+import {colorHex} from '@/styles/theme/colors';
 import {MarkerColor} from '@/types/domain';
-import {colorHex} from '@/components/common/CustomMarker';
 import InputField from '@/components/common/InputFiled';
 import useForm from '@/hooks/useForm';
 import {validateCategory} from '@/utils';
@@ -67,7 +66,7 @@ function EditCategoryScreen({navigation}: Navigation) {
                 <S.Category $backgroundColor={colorHex[color]} />
                 <S.InputContainer>
                   <InputField
-                    ref={el => refArray.current[index]}
+                    ref={refArray.current[index]}
                     touched={category.touched[color]}
                     error={category.errors[color]}
                     placeholder={categoryPlaceHolderList[index]}
@@ -101,13 +100,13 @@ const S = {
     margin-top: 10px;
     margin-bottom: 30px;
     border-width: 1px;
-    border-color: ${colors.Brand.PINK_700};
+    border-color: ${props => props.theme.colors.PINK_700};
     border-radius: 3px;
     padding: 10px;
     gap: 10px;
   `,
   InfoText: styled.Text`
-    color: ${colors.Brand.PINK_700};
+    color: ${props => props.theme.colors.PINK_700};
     font-size: 15px;
     font-weight: 600;
   `,

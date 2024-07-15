@@ -1,7 +1,7 @@
 import {ScrollView} from 'react-native';
 import styled from '@emotion/native';
 import SettingItem from '@/components/setting/SettingItem';
-import {colors} from '@/styles/theme/colors';
+import {colors, lightColors} from '@/styles/theme/colors';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {StackScreenProps} from '@react-navigation/stack';
 import {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
@@ -36,14 +36,14 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
           title="마커 카테고리 설정"
           onPress={handlePressEditCategory}
         />
-        <SettingItem title="다크 모드" onPress={darkModeOption.show} />
+        <SettingItem title="테마 설정" onPress={darkModeOption.show} />
         <S.Space />
         <SettingItem
           title="로그아웃"
-          color={colors.System.RED_500}
+          color={lightColors.RED_500}
           onPress={handlePressLogout}
           icon={
-            <Octicons name="sign-out" color={colors.System.RED_500} size={16} />
+            <Octicons name="sign-out" color={lightColors.RED_500} size={16} />
           }
         />
 

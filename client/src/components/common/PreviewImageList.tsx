@@ -7,6 +7,7 @@ import IonicIcons from 'react-native-vector-icons/Ionicons';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {feedNavigations} from '@/constants';
+import useThemeStore from '@/store/useThemeStore';
 
 interface PreviewImageListProps {
   imageUris: ImageUri[];
@@ -26,7 +27,7 @@ function PreviewImageList({
   zoomEnable = false,
 }: PreviewImageListProps) {
   const navigation = useNavigation<Navigation>();
-
+  const {theme} = useThemeStore();
   const handlePressImage = (index: number) => {
     if (zoomEnable) {
       navigation.navigate(feedNavigations.IMAGE_ZOOM, {
@@ -56,7 +57,7 @@ function PreviewImageList({
                     <IonicIcons
                       name="close"
                       size={16}
-                      color={colors.Grayscale.WHITE}
+                      color={colors[theme].WHITE}
                     />
                   </B.DeleteButton>
                   {index > 0 && (
@@ -67,7 +68,7 @@ function PreviewImageList({
                       <IonicIcons
                         name="arrow-back-outline"
                         size={16}
-                        color={colors.Grayscale.WHITE}
+                        color={colors[theme].WHITE}
                       />
                     </B.LeftButton>
                   )}
@@ -79,7 +80,7 @@ function PreviewImageList({
                       <IonicIcons
                         name="arrow-forward-outline"
                         size={16}
-                        color={colors.Grayscale.WHITE}
+                        color={colors[theme].WHITE}
                       />
                     </B.RightButton>
                   )}
@@ -109,7 +110,7 @@ const S = {
   `,
   ImageButton: styled.Pressable`
     position: absolute;
-    background-color: ${colors.Grayscale.BLACK};
+    background-color: ${props => props.theme.colors.BLACK};
     z-index: 1;
   `,
 };

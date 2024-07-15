@@ -38,7 +38,7 @@ function FeedItem({post}: FeedItemProps) {
         )}
         {post.images.length === 0 && (
           <N.EmptyImageContainer>
-            <Text>No Image</Text>
+            <S.EmptyText>No Image</S.EmptyText>
           </N.EmptyImageContainer>
         )}
         <S.TextContainer>
@@ -70,18 +70,21 @@ const S = {
     gap: 2px;
   `,
   DateText: styled.Text`
-    color: ${colors.Brand.PINK_700};
+    color: ${props => props.theme.colors.PINK_700};
     font-weight: 600;
     font-size: 12px;
   `,
   TitleText: styled.Text`
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
     font-weight: 500;
     font-size: 13px;
   `,
   DescriptionText: styled.Text`
-    color: ${colors.Grayscale.GRAY_500};
+    color: ${props => props.theme.colors.GRAY_500};
     font-size: 13px;
+  `,
+  EmptyText: styled.Text`
+    color: ${props => props.theme.colors.BLACK};
   `,
 };
 
@@ -89,7 +92,7 @@ const N = {
   EmptyImageContainer: styled(S.ImageContainer)`
     justify-content: center;
     align-items: center;
-    border-color: ${colors.Grayscale.GRAY_200};
+    border-color: ${props => props.theme.colors.GRAY_200};
     border-radius: 5px;
     border-width: 1px;
   `,

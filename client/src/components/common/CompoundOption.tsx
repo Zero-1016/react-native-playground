@@ -6,8 +6,11 @@ import {
 } from 'react-native';
 import {createContext, PropsWithChildren, ReactNode, useContext} from 'react';
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
 import useButton from '@/hooks/useButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import useThemeStore from '@/store/useThemeStore';
+import {colors} from '@/styles/theme/colors';
+import {lightTheme} from '@/styles/theme';
 
 interface OptionContextValue {
   onClickOutSide?: (event: GestureResponderEvent) => void;
@@ -63,9 +66,15 @@ function Container({children}: PropsWithChildren) {
 interface ButtonProps extends PressableProps {
   children: ReactNode;
   isDanger?: boolean;
+  isChecked?: boolean;
 }
 
-function Button({children, isDanger = false, ...press}: ButtonProps) {
+function Button({
+  children,
+  isDanger = false,
+  isChecked,
+  ...press
+}: ButtonProps) {
   const button = useButton();
   return (
     <S.OptionButton
@@ -74,6 +83,14 @@ function Button({children, isDanger = false, ...press}: ButtonProps) {
       $isPress={button.isPress}
       {...press}>
       <S.OptionText $isDanger={isDanger}>{children}</S.OptionText>
+
+      {isChecked && (
+        <Ionicons
+          name="checkmark"
+          size={20}
+          color={lightTheme.colors.BLUE_500}
+        />
+      )}
     </S.OptionButton>
   );
 }
@@ -108,7 +125,7 @@ const S = {
     border-radius: 15px;
     margin: 10px;
     overflow: hidden;
-    background-color: ${colors.Grayscale.GRAY_100};
+    background-color: ${props => props.theme.colors.GRAY_100};
   `,
   OptionButton: styled.Pressable<{$isPress: boolean}>`
     flex-direction: row;
@@ -117,20 +134,20 @@ const S = {
     height: 50px;
     gap: 5px;
 
-    ${({$isPress}) =>
+    ${({$isPress, theme}) =>
       $isPress &&
       `
-        background-color: ${colors.Grayscale.GRAY_200}
+        background-color: ${theme.colors.GRAY_200}
     `}
   `,
   OptionText: styled.Text<{$isDanger: boolean}>`
     font-size: 17px;
     font-weight: 500;
-    color: ${colors.System.BLUE_500};
-    ${({$isDanger}) =>
+    color: ${props => props.theme.colors.BLUE_500};
+    ${({$isDanger, theme}) =>
       $isDanger &&
       `
-        color: ${colors.System.RED_500}
+        color: ${theme.colors.RED_500}
     `}
   `,
   TitleContainer: styled.View`
@@ -140,10 +157,10 @@ const S = {
   TitleText: styled.Text`
     font-size: 16px;
     font-weight: 500;
-    color: ${colors.Grayscale.BLACK};
+    color: ${props => props.theme.colors.BLACK};
   `,
   Border: styled.View`
     border-bottom-width: 1px;
-    border-bottom-color: ${colors.Grayscale.GRAY_200};
+    border-bottom-color: ${props => props.theme.colors.GRAY_200};
   `,
 };

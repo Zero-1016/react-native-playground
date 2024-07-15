@@ -1,6 +1,5 @@
 import styled from '@emotion/native';
 import {getSize} from '@/utils';
-import {colors} from '@/styles/theme/colors';
 
 function DayOfWeeks() {
   return (
@@ -30,12 +29,12 @@ const S = {
     align-items: center;
   `,
   Text: styled.Text<{$isSunday: boolean; $isSaturday: boolean}>`
-    color: ${({$isSunday, $isSaturday}) =>
+    color: ${({$isSunday, $isSaturday, theme}) =>
       $isSaturday
-        ? colors.System.BLUE_500
+        ? theme.colors.BLUE_500
         : $isSunday
-        ? colors.System.RED_500
-        : colors.Grayscale.BLACK};
+        ? theme.colors.RED_500
+        : theme.colors.BLACK};
   `,
 };
 

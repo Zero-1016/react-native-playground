@@ -1,7 +1,6 @@
 import useAuth from '@/hooks/queries/useAuth';
 import styled from '@emotion/native';
 import CustomButton from '@/components/common/CustomButton';
-import {colors} from '@/styles/theme/colors';
 import {Alert} from 'react-native';
 import {alerts} from '@/constants';
 import Toast from 'react-native-toast-message';
@@ -65,13 +64,13 @@ const S = {
     margin-top: 10px;
     margin-bottom: 30px;
     border-width: 1px;
-    border-color: ${colors.Brand.PINK_700};
+    border-color: ${props => props.theme.colors.PINK_700};
     border-radius: 3px;
     padding: 10px;
     gap: 10px;
   `,
   InfoText: styled.Text`
-    color: ${colors.Brand.PINK_700};
+    color: ${props => props.theme.colors.PINK_700};
     font-size: 15px;
     font-weight: 600;
   `,

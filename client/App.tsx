@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import RootNavigator from './src/navigations/root/RootNavigator';
-import theme from '@/styles/theme';
+import {darkTheme, lightTheme} from '@/styles/theme';
 import {ThemeProvider} from '@emotion/react';
 import {QueryClientProvider} from '@tanstack/react-query';
 import queryClient from '@/api/query-client';
@@ -10,7 +10,8 @@ import Toast, {
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
-import {colors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
+import {StatusBar} from 'react-native';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -28,7 +29,7 @@ const toastConfig = {
   error: (props: BaseToastProps) => (
     <ErrorToast
       {...props}
-      style={{borderLeftColor: colors.System.RED_500}}
+      style={{borderLeftColor: lightTheme.colors.RED_500}}
       text1Style={{
         fontSize: 14,
       }}
@@ -40,9 +41,13 @@ const toastConfig = {
 };
 
 function App() {
+  const {theme: themeMode} = useThemeStore();
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
+      <StatusBar
+        barStyle={themeMode === 'light' ? 'dark-content' : 'light-content'}
+      />
+      <ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
         <NavigationContainer>
           <RootNavigator />
           <Toast config={toastConfig} />
