@@ -33,6 +33,7 @@ function EditCategoryScreen({navigation}: Navigation) {
   const refArray = useRef<(TextInput | null)[]>([]);
   const {getProfileQuery, categoryMutation} = useAuth();
   const {categories} = getProfileQuery.data || {};
+
   const category = useForm({
     initialValue: {
       RED: categories?.RED ?? '',
@@ -43,6 +44,7 @@ function EditCategoryScreen({navigation}: Navigation) {
     },
     validate: validateCategory,
   });
+
   useEffect(() => {
     const handleSubmit = () => {
       categoryMutation.mutate(category.values);
@@ -50,7 +52,7 @@ function EditCategoryScreen({navigation}: Navigation) {
     navigation.setOptions({
       headerRight: () => EditCategoryHeaderRight(handleSubmit),
     });
-  }, [category.values]);
+  }, [category.values, categoryMutation, navigation]);
 
   return (
     <S.Container>
@@ -66,7 +68,7 @@ function EditCategoryScreen({navigation}: Navigation) {
                 <S.Category $backgroundColor={colorHex[color]} />
                 <S.InputContainer>
                   <InputField
-                    ref={refArray.current[index]}
+                    ref={() => refArray.current[index]}
                     touched={category.touched[color]}
                     error={category.errors[color]}
                     placeholder={categoryPlaceHolderList[index]}
@@ -75,7 +77,7 @@ function EditCategoryScreen({navigation}: Navigation) {
                     returnKeyType={'next'}
                     blurOnSubmit={false}
                     onSubmitEditing={() => refArray.current[index + 1]?.focus()}
-                    {...category.getTextInputProps}
+                    {...category.getTextInputProps(color)}
                   />
                 </S.InputContainer>
               </S.CategoryContainer>

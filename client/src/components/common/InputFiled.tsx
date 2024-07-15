@@ -2,6 +2,8 @@ import React, {ForwardedRef, forwardRef, ReactNode, useRef} from 'react';
 import styled from '@emotion/native';
 import {Pressable, TextInput, TextInputProps} from 'react-native';
 import {getSize, mergeRefs} from '@/utils';
+import {colors} from '@/styles/theme/colors';
+import useThemeStore from '@/store/useThemeStore';
 
 interface InputFieldProps extends TextInputProps {
   touched?: boolean;
@@ -15,6 +17,7 @@ const InputField = forwardRef(
     {touched, disabled = false, error, icon = null, ...props}: InputFieldProps,
     ref?: ForwardedRef<TextInput>,
   ) => {
+    const {theme} = useThemeStore();
     const innerRef = useRef<TextInput>(null);
 
     const handlePressInput = () => {
@@ -35,6 +38,7 @@ const InputField = forwardRef(
               autoCapitalize="none"
               spellCheck={false}
               autoCorrect={false}
+              placeholderTextColor={colors[theme].GRAY_500}
               {...props}
             />
           </S.InnerContainer>
