@@ -1,20 +1,13 @@
 import useAuth from '@/hooks/queries/useAuth';
-import {Text, View} from 'react-native';
+import {Text} from 'react-native';
 import styled from '@emotion/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Category, MarkerColor} from '@/types/domain';
+import {Category} from '@/types/domain';
 import {Fragment} from 'react';
 import {colorHex} from '@/styles/theme/colors';
+import {categoryList} from '@/constants';
 
 interface MapLegendProps {}
-
-const categoryList: MarkerColor[] = [
-  'RED',
-  'YELLOW',
-  'GREEN',
-  'BLUE',
-  'PURPLE',
-];
 
 function MapLegend({}: MapLegendProps) {
   const {getProfileQuery} = useAuth();

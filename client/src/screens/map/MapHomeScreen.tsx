@@ -31,6 +31,9 @@ import {colors, darkColors, lightColors} from '@/styles/theme/colors';
 import {getMapStyle} from '@/styles/mapStyle';
 import useLegendStorage from '@/hooks/useLegendStorage';
 import MapLegend from '@/components/map/MapLegend';
+import MarkerFilterOption from '@/components/map/MarkerFilterOption';
+import useMarkerFilter from '@/hooks/useMarkerFilter';
+import markerFilterOption from '@/components/map/MarkerFilterOption';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -40,9 +43,13 @@ type Navigation = CompositeNavigationProp<
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
   const navigation = useNavigation<Navigation>();
-  const {data: markers = []} = useGetMarkers();
+  const markerFilter = useMarkerFilter();
+  const {data: markers = []} = useGetMarkers({
+    select: markerFilter.transformFilteredMarker,
+  });
   usePermission('LOCATION');
   const markerModal = useModal();
+  const filterOption = useModal();
   const {selectedLocation, setSelectedLocation} = useLocationStore();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [markerId, setMarkerId] = useState<number | null>(null);
@@ -172,12 +179,30 @@ function MapHomeScreen() {
             size={25}
           />
         </S.MapButton>
+        <S.MapButton
+          $backgroundColor={buttonBackgroundColor}
+          onPress={filterOption.show}>
+          <IonicIcons
+            name="options-outline"
+            color={
+              theme === 'light' ? colors[theme].WHITE : colors[theme].GRAY_700
+            }
+            size={25}
+          />
+        </S.MapButton>
       </S.ButtonList>
+
       <MarkerModal
         markerId={markerId}
         isVisible={markerModal.isVisible}
         hide={markerModal.hide}
       />
+
+      <MarkerFilterOption
+        isVisible={filterOption.isVisible}
+        hideOption={filterOption.hide}
+      />
+
       {legend.isVisible && <MapLegend />}
     </>
   );
