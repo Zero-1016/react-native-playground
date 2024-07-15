@@ -1,11 +1,17 @@
 import styled from '@emotion/native';
-import {colors} from '@/styles/theme/colors';
 import FeedFavoriteList from '@/components/feed/FeedFavoriteList';
+import {Suspense} from 'react';
+import Loader from '@/components/common/Loader';
+import ResetErrorBoundary from '@/components/common/ResetErrorBoundary';
 
 function FeedFavoriteScreen() {
   return (
     <S.Container>
-      <FeedFavoriteList />
+      <ResetErrorBoundary>
+        <Suspense fallback={<Loader />}>
+          <FeedFavoriteList />
+        </Suspense>
+      </ResetErrorBoundary>
     </S.Container>
   );
 }
