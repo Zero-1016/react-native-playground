@@ -9,18 +9,19 @@ interface MarkerSelectorProps {
   onPressMarker: (color: MarkerColor) => void;
 }
 
+const categoryList: MarkerColor[] = [
+  'RED',
+  'YELLOW',
+  'GREEN',
+  'BLUE',
+  'PURPLE',
+];
+
 function MarkerSelector({
   score,
   markerColor,
   onPressMarker,
 }: MarkerSelectorProps) {
-  const categoryList: MarkerColor[] = [
-    'RED',
-    'YELLOW',
-    'GREEN',
-    'BLUE',
-    'PURPLE',
-  ];
   return (
     <S.Container>
       <S.MarkerLabel>마커 선택</S.MarkerLabel>

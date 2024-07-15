@@ -17,6 +17,7 @@ const storageKeys = {
   ACCESS_TOKEN: 'accessToken',
   THEME_MODE: 'themeMode',
   THEME_SYSTEM: 'themeSystem',
+  SHOW_LEGEND: 'showLegend',
 };
 
 export {queryKeys, storageKeys};

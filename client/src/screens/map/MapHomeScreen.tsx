@@ -29,6 +29,8 @@ import useLocationStore from '@/store/useLocationStore';
 import useThemeStore from '@/store/useThemeStore';
 import {colors, darkColors, lightColors} from '@/styles/theme/colors';
 import {getMapStyle} from '@/styles/mapStyle';
+import useLegendStorage from '@/hooks/useLegendStorage';
+import MapLegend from '@/components/map/MapLegend';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -44,7 +46,7 @@ function MapHomeScreen() {
   const {selectedLocation, setSelectedLocation} = useLocationStore();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [markerId, setMarkerId] = useState<number | null>(null);
-
+  const legend = useLegendStorage();
   const {userLocation, isUserLocationError} = useUserLocation();
 
   const {theme} = useThemeStore();
@@ -176,6 +178,7 @@ function MapHomeScreen() {
         isVisible={markerModal.isVisible}
         hide={markerModal.hide}
       />
+      {legend.isVisible && <MapLegend />}
     </>
   );
 }
