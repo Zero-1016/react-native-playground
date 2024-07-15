@@ -1,3 +1,5 @@
+import {Category} from '@/types/domain';
+
 type UserInformation = {
   email: string;
   password: string;
@@ -60,4 +62,41 @@ function validateEditProfile(values: {nickname: string}) {
   return errors;
 }
 
-export {validateLogin, validateSignUp, validateAddPost, validateEditProfile};
+function validateCategory(values: Category) {
+  const errors = {
+    RED: '',
+    YELLOW: '',
+    GREEN: '',
+    BLUE: '',
+    PURPLE: '',
+  };
+
+  if (
+    isBlack(values.RED) ||
+    isBlack(values.YELLOW) ||
+    isBlack(values.BLUE) ||
+    isBlack(values.GREEN) ||
+    isBlack(values.PURPLE)
+  ) {
+    if (isBlack(values.RED)) {
+      errors.RED = '카테고리를 입력해주세요.';
+    } else if (isBlack(values.YELLOW)) {
+      errors.YELLOW = '카테고리를 입력해주세요.';
+    } else if (isBlack(values.GREEN)) {
+      errors.GREEN = '카테고리를 입력해주세요.';
+    } else if (isBlack(values.BLUE)) {
+      errors.BLUE = '카테고리를 입력해주세요.';
+    } else if (isBlack(values.PURPLE)) {
+      errors.PURPLE = '카테고리를 입력해주세요.';
+    }
+  }
+  return errors;
+}
+
+export {
+  validateLogin,
+  validateSignUp,
+  validateAddPost,
+  validateEditProfile,
+  validateCategory,
+};

@@ -1,8 +1,13 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
-import {feedNavigations, mainNavigations, mapNavigations} from '@/constants';
+import {
+  feedNavigations,
+  mainNavigations,
+  mapNavigations,
+  settingNavigations,
+} from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
-import {Platform, Text} from 'react-native';
+import {Platform, Pressable, Text} from 'react-native';
 import styled from '@emotion/native';
 import {getDateLocaleFormat, getSize} from '@/utils';
 import {colors} from '@/styles/theme/colors';
@@ -22,6 +27,7 @@ import FeedDetailOption from '@/components/feed/FeedDetailOption';
 import {useEffect} from 'react';
 import useDetailStore from '@/store/useDetailStore';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
+import useAuth from '@/hooks/queries/useAuth';
 
 type FeedDetailScreenProps = CompositeScreenProps<
   StackScreenProps<FeedStackParamList, typeof feedNavigations.FEED_DETAIL>,
@@ -31,6 +37,8 @@ type FeedDetailScreenProps = CompositeScreenProps<
 function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {id} = route.params;
   const insets = useSafeAreaInsets();
+  const {getProfileQuery} = useAuth();
+  const {categories} = getProfileQuery.data || {};
   const {data: post, isPending, isError} = useGetPost(id);
   const bookMarkButton = useButton();
   const detailOption = useModal();
@@ -56,6 +64,13 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
 
   const handlePressFavorite = () => {
     favoriteMutation.mutate(post.id);
+  };
+
+  const handlePressCategory = () => {
+    navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.EDIT_CATEGORY,
+      initial: false,
+    });
   };
 
   return (
@@ -131,6 +146,18 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
               <S.InfoColumn>
                 <S.InfoColumnKeyText>마커색상</S.InfoColumnKeyText>
                 <S.MarkerColor $color={colorHex[post?.color]} />
+              </S.InfoColumn>
+              <S.InfoColumn>
+                <S.InfoColumnKeyText>카테고리</S.InfoColumnKeyText>
+                {categories?.[post?.color] ? (
+                  <S.InfoColumnKeyValueText>
+                    {categories?.[post?.color]}
+                  </S.InfoColumnKeyValueText>
+                ) : (
+                  <S.EmptyCategoryContainer onPress={handlePressCategory}>
+                    <S.InfoColumnKeyText>미설정</S.InfoColumnKeyText>
+                  </S.EmptyCategoryContainer>
+                )}
               </S.InfoColumn>
             </S.InfoRow>
           </S.InfoContainer>
@@ -288,6 +315,13 @@ const S = {
     padding: 0 5px;
     justify-content: center;
     border-radius: 3px;
+  `,
+  EmptyCategoryContainer: styled.Pressable`
+    align-items: center;
+    justify-content: center;
+    background-color: ${colors.Grayscale.GRAY_300};
+    padding: 2px;
+    border-radius: 2px;
   `,
 };
 

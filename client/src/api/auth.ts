@@ -87,6 +87,15 @@ const deleteAccount = async () => {
   await axiosInstance.delete('/auth/me');
 };
 
+const editCategory = async (body: Category): Promise<ResponseProfile> => {
+  const {data} = await axiosInstance.patch<ResponseProfile>(
+    '/auth/category',
+    body,
+  );
+
+  return data;
+};
+
 export {
   postSignup,
   postLogin,
@@ -97,6 +106,7 @@ export {
   appleLogin,
   editProfile,
   deleteAccount,
+  editCategory,
 };
 export type {
   RequestUser,

@@ -10,13 +10,15 @@ import FeedTabNavigator, {FeedTabParamList} from '../tab/FeedTabNavigator';
 import {mainNavigations} from '@/constants';
 import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import {colors} from '@/styles/theme/colors';
-import SettingStackNavigator from '@/navigations/stack/SettingStackNavigator';
+import SettingStackNavigator, {
+  SettingStackParamList,
+} from '@/navigations/stack/SettingStackNavigator';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
   [mainNavigations.FEED]: NavigatorScreenParams<FeedTabParamList>;
   [mainNavigations.CALENDAR]: undefined;
-  [mainNavigations.SETTING]: undefined;
+  [mainNavigations.SETTING]: NavigatorScreenParams<SettingStackParamList>;
 };
 
 const Drawer = createDrawerNavigator<MainDrawerParamList>();

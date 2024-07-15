@@ -4,6 +4,7 @@ import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 import {
   appleLogin,
   deleteAccount,
+  editCategory,
   editProfile,
   getAccessToken,
   getProfile,
@@ -15,11 +16,12 @@ import {
   ResponseToken,
 } from '@/api/auth';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils';
-import {numbers, queryKeys, storageKeys} from '@/constants';
+import {errorMessages, numbers, queryKeys, storageKeys} from '@/constants';
 import {removeHeader, setHeader} from '@/utils/set-header';
 import queryClient from '@/api/query-client';
 import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/types/common';
 import Toast from 'react-native-toast-message';
+import {Category, Profile} from '@/types/domain';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -89,11 +91,48 @@ function useGetRefreshToken() {
   return {isSuccess, isError};
 }
 
-function useGetProfile(queryOptions?: UseQueryCustomOptions<ResponseProfile>) {
+type ResponseSelectProfile = {categories: Category} & Profile;
+
+const transformProfileCategory = (data: ResponseProfile) => {
+  const {BLUE, GREEN, PURPLE, RED, YELLOW, ...rest} = data;
+  const categories = {BLUE, GREEN, PURPLE, RED, YELLOW};
+
+  return {categories, ...rest};
+};
+
+function useGetProfile(
+  queryOptions?: UseQueryCustomOptions<ResponseProfile, ResponseSelectProfile>,
+) {
   return useQuery({
     queryFn: getProfile,
     queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
+    select: transformProfileCategory,
     ...queryOptions,
+  });
+}
+
+function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: editCategory,
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+      Toast.show({
+        type: 'success',
+        text1: '카테고리가 변경되었습니다.',
+        position: 'bottom',
+      });
+    },
+    onError: error => {
+      Toast.show({
+        type: 'error',
+        text1: error.response?.data.message || errorMessages.UNEXPECTED_ERROR,
+        position: 'bottom',
+      });
+    },
+    ...mutationOptions,
   });
 }
 
@@ -146,9 +185,11 @@ function useAuth() {
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
   const profileMutation = useUpdateProfile();
+  const editCategoryMutation = useMutateCategory();
   const deleteAccountMutation = useDeleteAccount({
     onSuccess: () => logoutMutation.mutate(null),
   });
+  const categoryMutation = useMutateCategory();
 
   return {
     signupMutation,
@@ -160,6 +201,8 @@ function useAuth() {
     appleLoginMutation,
     profileMutation,
     deleteAccountMutation,
+    editCategoryMutation,
+    categoryMutation,
   };
 }
 

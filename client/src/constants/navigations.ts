@@ -34,4 +34,5 @@ export const settingNavigations = {
   SETTING_HOME: 'SettingHome',
   EDIT_PROFILE: 'EditProfile',
   DELETE_ACCOUNT: 'DeleteAccount',
+  EDIT_CATEGORY: 'EditCategory',
 } as const;
